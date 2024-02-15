@@ -1,10 +1,10 @@
-import random
 import importlib
 import re
 import time
 import asyncio
 from platform import python_version as y
 from sys import argv
+
 from pyrogram import __version__ as pyrover
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram import __version__ as telever
@@ -23,11 +23,11 @@ from telegram.ext import (
     Filters,
     MessageHandler,
 )
-from telegram.ext.dispatcher import DispatcherHandlerStop
+from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tlhver
 
-import RadiuxManager.modules.no_sql.users_db as sql
+import RadiuxManager.modules.sql.users_sql as sql
 from RadiuxManager import (
     BOT_NAME,
     BOT_USERNAME,
@@ -71,115 +71,55 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 PM_START_TEX = """
-➩ ʜᴇʟʟᴏ `{}`, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ \n➩ ʟᴏᴠᴇ ʏᴏᴜ ʙᴀʙʏ... 
+💕 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 {} dear, #IconicRobot
 """
 
 
 PM_START_TEXT = """ 
-*➩ ʜᴇʏ {}, ᴡᴇʟᴄᴏᴍᴇ ʙᴀʙʏ* !\n━━━━━━━━━━━━━━━━━━━━━━\n\n➩ *ɪ ᴀᴍ {}, ᴀɴᴅ ɪ ʜᴀᴠᴇ sᴘᴇᴄɪᴀʟ ғᴇᴀᴛᴜʀᴇs.*\n\n➩ *ᴜsᴇʀs ➛ {}*\n➩ *ᴄʜᴀᴛs ➛ {}*\n\n➩ *ɪ ʜᴀᴠᴇ ᴍᴏsᴛ ᴘᴏᴡᴇʀғᴜʟʟ ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ + ᴍᴜsɪᴄ ʙᴏᴛ ғᴇᴀᴛᴜʀᴇs.*"""
+
+ᥫᩣ 𝐇𝐞𝐲 {} , [❤]({})
+
+ʕ˖͜͡˖ʔ═══❰🌺 𝐖𝙴𝙻𝙲𝙾𝙼𝙴 🌺❱═══ʕ˖͜͡˖ʔ
+
+❤️ 𝐈 𝐀ᴍ 𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉, 𝐀ɴ 𝐒ᴜᴘᴇʀꜰᴀꜱᴛ 𝐌ᴀɴᴀɢᴇᴍᴇɴᴛ 𝐀ɴᴅ 𝐕ᴄ 𝐏ʟᴀʏᴇʀ  𝐖ɪᴛʜ 𝟐𝟒𝐱𝟕 𝐀ᴄᴛɪᴠᴇ 𝐅ᴏʀ 𝐓ᴇʟᴇɢʀᴀᴍ 𝐆ʀᴏᴜᴘꜱ 𝐀ɴᴅ 𝐂ʜᴀɴɴᴇʟ 💞
+🩷 𝐅ᴇᴇʟ 𝐅ʀᴇᴇ 𝐓ᴏ 𝐀ᴅᴅ 𝐌ᴇ 𝐈ɴ 𝐘ᴏᴜʀ 𝐆ʀᴏᴜᴘ 𝐀ɴᴅ 𝐄ɴᴊᴏʏ 𝐒ᴜᴘᴇʀ 𝐇ɪɢʜ 𝐐ᴜᴀʟɪᴛʏ 𝐁ᴏᴛ 💗
+
+[❣️ 𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) 💓 𝐁ᴀsᴇᴅ 𝐎ɴ 𝐏ʀᴏᴛᴀɢᴏɴɪsᴛ [𝐈ᴄᴄʜᴀ 𝐁ᴏsᴇ](https://t.me/Iconic_Iccha) 💕
+"""
 
 buttons = [
     [
         InlineKeyboardButton(
-            text=" ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ", 
-            url=f"https://t.me/{dispatcher.bot.username}?startgroup=true", 
+            text=" 𝐀𝙳𝙳 𝐌𝙴 𝐃𝙴𝙰𝚁 ",
+            url=f"https://t.me/{dispatcher.bot.username}?startgroup=true",
         ),
     ],
     [
-        InlineKeyboardButton(text="ʀᴇᴘᴏ", callback_data="gib_source"),
-        InlineKeyboardButton(text="ᴀʙᴏᴜᴛ", callback_data="Radiux_"),
+        InlineKeyboardButton(text=" 𝐇𝙴𝙻𝙿 ", callback_data="help_back"),
+        InlineKeyboardButton(text=" 𝐌𝚄𝚂𝙸𝙲 ", callback_data="Music_"),
     ],
     [
-        InlineKeyboardButton(text="ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs", callback_data="Main_help"),
+        InlineKeyboardButton(text=" 𝐒𝚄𝙿𝙿𝙾𝚁𝚃 ", url=f"https://t.me/offtopic_community"),
+        InlineKeyboardButton(text=" 𝐂𝙷𝙰𝙽𝙽𝙴𝙻 ", url=f"https://t.me/the_radiux_Network"),
     ],
-     
-]
+    [
+        InlineKeyboardButton(text=" 𝐑𝙴𝙿𝙾 ", callback_data="gib_source"), 
+        InlineKeyboardButton(text=" 𝐄𝚇𝚃𝚁𝙰 ", callback_data="Music_11"),
+],
 
 
-roy = [
     [
-        InlineKeyboardButton(text="ᴜᴘᴅᴀᴛᴇ", url=f"https://t.me/the_radiux_network"),
-        InlineKeyboardButton(text="ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
-    ],
-    [
-        InlineKeyboardButton(
-            text="ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ",
-            url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
-        ),
+        InlineKeyboardButton(text="𝐀𝙱𝙾𝚄𝚃 ", callback_data="Radiux_"),
     ],
 ]
 
 HELP_STRINGS = f"""
-➩ *{BOT_NAME}  ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴇsᴄʀɪᴘᴛɪᴏɴ ᴀʙᴏᴜᴛ sᴘᴇᴄɪғɪᴄs ᴄᴏᴍᴍᴀɴᴅ*"""
+» {BOT_NAME}  ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴇsᴄʀɪᴘᴛɪᴏɴ ᴀʙᴏᴜᴛ sᴘᴇᴄɪғɪᴄs ᴄᴏᴍᴍᴀɴᴅ"""
 
-ABHI = [
-"https://graph.org/file/f76fd86d1936d45a63c64.jpg",
-"https://graph.org/file/69ba894371860cd22d92e.jpg",
-"https://graph.org/file/67fde88d8c3aa8327d363.jpg",
-"https://graph.org/file/3a400f1f32fc381913061.jpg",
-"https://graph.org/file/a0893f3a1e6777f6de821.jpg",
-"https://graph.org/file/5a285fc0124657c7b7a0b.jpg",
-"https://graph.org/file/25e215c4602b241b66829.jpg",
-"https://graph.org/file/a13e9733afdad69720d67.jpg",
-"https://graph.org/file/692e89f8fe20554e7a139.jpg",
-"https://graph.org/file/db277a7810a3f65d92f22.jpg",
-"https://graph.org/file/a00f89c5aa75735896e0f.jpg",
-"https://graph.org/file/f86b71018196c5cfe7344.jpg",
-"https://graph.org/file/a3db9af88f25bb1b99325.jpg",
-"https://graph.org/file/5b344a55f3d5199b63fa5.jpg",
-"https://graph.org/file/84de4b440300297a8ecb3.jpg",
-"https://graph.org/file/84e84ff778b045879d24f.jpg",
-"https://graph.org/file/a4a8f0e5c0e6b18249ffc.jpg",
-"https://graph.org/file/ed92cada78099c9c3a4f7.jpg",
-"https://graph.org/file/d6360613d0fa7a9d2f90b.jpg",
-"https://graph.org/file/37248e7bdff70c662a702.jpg",
-"https://graph.org/file/0bfe29d15e918917d1305.jpg",
-"https://graph.org/file/16b1a2828cc507f8048bd.jpg",
-"https://graph.org/file/e6b01f23f2871e128dad8.jpg",
-"https://graph.org/file/cacbdddee77784d9ed2b7.jpg",
-"https://graph.org/file/ddc5d6ec1c33276507b19.jpg",
-"https://graph.org/file/39d7277189360d2c85b62.jpg",
-"https://graph.org/file/5846b9214eaf12c3ed100.jpg",
-"https://graph.org/file/ad4f9beb4d526e6615e18.jpg",
-"https://graph.org/file/3514efaabe774e4f181f2.jpg",   
+DONATE_STRING = """ʜᴇʏ ʙᴀʙʏ,
+  ʜᴀᴩᴩʏ ᴛᴏ ʜᴇᴀʀ ᴛʜᴀᴛ ʏᴏᴜ ᴡᴀɴɴᴀ ᴅᴏɴᴀᴛᴇ.
 
-]
-
-NYKAA = [
-    "https://graph.org/file/9bba2b7ee9ba3806de65d.jpg",
-    "https://graph.org/file/ef82f289043a4fa74f8ff.jpg",
-    "https://graph.org/file/9c27c68958e06ae074c38.jpg",
-    "https://graph.org/file/0ff325b1d2efe80299aa3.jpg",
-    "https://graph.org/file/41167b953cf3579853d47.jpg",
-    "https://graph.org/file/bd93ab42e69305f274028.jpg",
-    "https://graph.org/file/97575db5586c05d6b2898.jpg",
-    "https://graph.org/file/07c393fdf931a407c9bc0.jpg",
-    "https://graph.org/file/f332767490ad3a5ca20e8.jpg",
-    "https://graph.org/file/f3449e9069667f647d14e.jpg",
-    "https://graph.org/file/9f51cdc739f907cbd2c7e.jpg",
-    "https://telegra.ph/file/d7a6a923c38e051ce35f3.jpg",
-    "https://graph.org/file/f86b71018196c5cfe7344.jpg",
-    "https://graph.org/file/a3db9af88f25bb1b99325.jpg",
-    "https://graph.org/file/5b344a55f3d5199b63fa5.jpg",
-    "https://graph.org/file/84de4b440300297a8ecb3.jpg",
-    "https://graph.org/file/84e84ff778b045879d24f.jpg",
-    "https://graph.org/file/a4a8f0e5c0e6b18249ffc.jpg",
-    "https://graph.org/file/ed92cada78099c9c3a4f7.jpg",
-    "https://graph.org/file/d6360613d0fa7a9d2f90b.jpg",
-    "https://graph.org/file/37248e7bdff70c662a702.jpg",
-    "https://graph.org/file/0bfe29d15e918917d1305.jpg",
-    "https://graph.org/file/16b1a2828cc507f8048bd.jpg",
-    "https://graph.org/file/e6b01f23f2871e128dad8.jpg",
-    "https://graph.org/file/cacbdddee77784d9ed2b7.jpg",
-    "https://graph.org/file/ddc5d6ec1c33276507b19.jpg",
-    "https://graph.org/file/39d7277189360d2c85b62.jpg",
-    "https://graph.org/file/5846b9214eaf12c3ed100.jpg",
-    "https://graph.org/file/ad4f9beb4d526e6615e18.jpg",
-    "https://graph.org/file/3514efaabe774e4f181f2.jpg",    
-]
-
-
-DONATE_STRING = f"""➩ ʜᴇʏ ʙᴀʙʏ, ʜᴀᴩᴩʏ ᴛᴏ ʜᴇᴀʀ ᴛʜᴀᴛ ʏᴏᴜ ᴡᴀɴɴᴀ ᴅᴏɴᴀᴛᴇ. ʏᴏᴜ ᴄᴀɴ ᴅɪʀᴇᴄᴛʟʏ ᴄᴏɴᴛᴀᴄᴛ ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ @the_radiux_network ғᴏʀ ᴅᴏɴᴀᴛɪɴɢ ᴏʀ ʏᴏᴜ ᴄᴀɴ ᴠɪsɪᴛ ᴍʏ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ @offtopic_community ᴀɴᴅ ᴀsᴋ ᴛʜᴇʀᴇ ᴀʙᴏᴜᴛ ᴅᴏɴᴀᴛɪᴏɴ."""
+ʏᴏᴜ ᴄᴀɴ ᴅɪʀᴇᴄᴛʟʏ ᴄᴏɴᴛᴀᴄᴛ ᴍʏ [ᴅᴇᴠᴇʟᴏᴩᴇʀ](f"tg://user?id={OWNER_ID}") ғᴏʀ ᴅᴏɴᴀᴛɪɴɢ ᴏʀ ʏᴏᴜ ᴄᴀɴ ᴠɪsɪᴛ ᴍʏ [sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ](f"https://t.me/{SUPPORT_CHAT}") ᴀɴᴅ ᴀsᴋ ᴛʜᴇʀᴇ ᴀʙᴏᴜᴛ ᴅᴏɴᴀᴛɪᴏɴ."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -231,17 +171,28 @@ for module_name in ALL_MODULES:
 def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-    dispatcher.bot.send_photo(
+    dispatcher.bot.send_message(
         chat_id=chat_id,
-        photo=START_IMG,
-        caption=text,
+        text=text,
         parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
         reply_markup=keyboard,
     )
 
+
+run_async
+def test(update: Update, context: CallbackContext):
+    # pprint(eval(str(update)))
+    update.effective_message.reply_text(
+        "Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN
+    )
+    update.effective_message.reply_text("This person edited a message")
+    print(update.effective_message)
+
+
+run_async
 def start(update: Update, context: CallbackContext):
     args = context.args
-    global uptime
     uptime = get_readable_time((time.time() - StartTime))
     if update.effective_chat.type == "private":
         if len(args) >= 1:
@@ -255,11 +206,10 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="◁", callback_data="help_back")]]
+                        [[InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="help_back")]]
                     ),
                 )
-            elif args[0].lower() == "markdownhelp":
-                IMPORTED["exᴛʀᴀs"].markdown_help_sender(update)
+
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
@@ -269,46 +219,43 @@ def start(update: Update, context: CallbackContext):
                 else:
                     send_settings(match.group(1), update.effective_user.id, True)
 
-            elif args[0][1:].isdigit() and "rᴜʟᴇs" in IMPORTED:
-                IMPORTED["rᴜʟᴇs"].send_rules(update, args[0], from_pm=True)
+            elif args[0][1:].isdigit() and "rules" in IMPORTED:
+                IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
             first_name = update.effective_user.first_name
             
             x=update.effective_message.reply_sticker(
-                "CAACAgUAAxkBAAI33mLYLNLilbRI-sKAAob0P7koTEJNAAIOBAACl42QVKnra4sdzC_uKQQ")
-            x.delete()
+                "CAACAgEAAxkBAAID-GXHJdD7cqAyCPi0hJJCuU3kwMLKAAITBAAC0aI5RhK83dJdQ4bUNAQ")
             usr = update.effective_user
             lol = update.effective_message.reply_text(
                 PM_START_TEX.format(usr.first_name), parse_mode=ParseMode.MARKDOWN
             )
+            time.sleep(0.6)
+            lol.edit_text("💖")
             time.sleep(0.4)
-            lol.edit_text("💛")
-            time.sleep(0.5)
-            lol.edit_text("🤍")
-            time.sleep(0.3)
-            lol.edit_text("❤️")
-            time.sleep(0.4)
+            lol.edit_text("💥")
+            time.sleep(0.6)
             lol.delete()
             
-            update.effective_message.reply_photo(random.choice(NYKAA),PM_START_TEXT.format(escape_markdown(first_name),BOT_NAME,sql.num_users(),sql.num_chats()),
+            update.effective_message.reply_text(
+                PM_START_TEXT.format(escape_markdown(first_name), (START_IMG), BOT_NAME),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
             )
     else:
         update.effective_message.reply_photo(
-            random.choice(NYKAA),
-            caption="➩ ɪ ᴀᴍ ᴀʟɪᴠᴇ ʙᴀʙʏ...!\n\n➩ <b>ɪ ᴅɪᴅɴ'ᴛ sʟᴇᴘᴛ ʙᴀʙʏ.</b> \n\n➩ ᴜᴘᴛɪᴍᴇ ➛ <code>{}</code>".format(
+            START_IMG,
+            caption="ɪ ᴀᴍ ᴀʟɪᴠᴇ ʙᴀʙʏ  !\n<b>ɪ ᴅɪᴅɴ'ᴛ sʟᴇᴘᴛ sɪɴᴄᴇ:</b> <code>{}</code>".format(
                 uptime
             ),
-            reply_markup=InlineKeyboardMarkup(roy),
             parse_mode=ParseMode.HTML,
         )
 
 
 def error_handler(update, context):
-    """๏ ʟᴏɢ ᴛʜᴇ ᴇʀʀᴏʀ ᴀɴᴅ sᴇɴᴅ ᴀ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇssᴀɢᴇ ᴛᴏ ɴᴏᴛɪғʏ ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴘᴇʀ."""
+    """Log the error and send a telegram message to notify the developer."""
     # Log the error before we do anything else, so we can see it even if something breaks.
     LOGGER.error(msg="Exception while handling an update:", exc_info=context.error)
 
@@ -321,9 +268,9 @@ def error_handler(update, context):
 
     # Build the message with some markup and additional information about what happened.
     message = (
-        "➩ ᴀɴ ᴇxᴄᴇᴘᴛɪᴏɴ ᴡᴀs ʀᴀɪsᴇᴅ ᴡʜɪʟᴇ ʜᴀɴᴅʟɪɴɢ ᴀɴ ᴜᴘᴅᴀᴛᴇ\n"
-        "➩ <pre>ᴜᴘᴅᴀᴛᴇ = {}</pre>\n\n"
-        "➩ <pre>{}</pre>"
+        "An exception was raised while handling an update\n"
+        "<pre>update = {}</pre>\n\n"
+        "<pre>{}</pre>"
     ).format(
         html.escape(json.dumps(update.to_dict(), indent=2, ensure_ascii=False)),
         html.escape(tb),
@@ -365,6 +312,7 @@ def error_callback(update: Update, context: CallbackContext):
         # handle all other telegram related errors
 
 
+run_async
 def help_button(update, context):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
@@ -378,22 +326,24 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "❅ *ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs ꜰᴏʀ* *{}* ❅\n".format(
+                "» *ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs ꜰᴏʀ* *{}* :\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
             )
-            query.message.edit_caption(text,
+            query.message.edit_text(
+                text=text,
                 parse_mode=ParseMode.MARKDOWN,
-                
+                disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="help_back"),InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ", callback_data="Radiux_support")]]
+                    [[InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="help_back")]]
                 ),
             )
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
-            query.message.edit_caption(HELP_STRINGS,
+            query.message.edit_text(
+                text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(curr_page - 1, HELPABLE, "help")
@@ -402,7 +352,8 @@ def help_button(update, context):
 
         elif next_match:
             next_page = int(next_match.group(1))
-            query.message.edit_caption(HELP_STRINGS,
+            query.message.edit_text(
+                text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(next_page + 1, HELPABLE, "help")
@@ -410,7 +361,8 @@ def help_button(update, context):
             )
 
         elif back_match:
-            query.message.edit_caption(HELP_STRINGS,
+            query.message.edit_text(
+                text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, HELPABLE, "help")
@@ -424,438 +376,379 @@ def help_button(update, context):
     except BadRequest:
         pass
 
-
-def Radiux_about_callback(update: Update, context: CallbackContext):
+            
+    
+run_async
+def Iconic_about_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     if query.data == "Radiux_":
         uptime = get_readable_time((time.time() - StartTime))
-        query.message.edit_caption(f"*✦ ɪ ᴀᴍ {dispatcher.bot.first_name} ✦*"
-            "\n\n*➩ ɪ ʜᴀᴠᴇ ᴍᴏsᴛ ᴘᴏᴡᴇʀғᴜʟʟ ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ + ᴍᴜsɪᴄ ʙᴏᴛ ғᴇᴀᴛᴜʀᴇs.*"
-            "\n\n*➩ ᴡʀɪᴛᴛᴇɴ ɪɴ ᴩʏᴛʜᴏɴ ᴡɪᴛʜ sǫʟᴀʟᴄʜᴇᴍʏ ᴀɴᴅ ᴍᴏɴɢᴏᴅʙ ᴀs ᴅᴀᴛᴀʙᴀsᴇ.*"
-            f"\n\n*➩ ᴜsᴇʀs ➛* {sql.num_users()}"
-            f"\n*➩ ᴄʜᴀᴛs ➛* {sql.num_chats()}"
-            "\n\n➩ ɪ ᴄᴀɴ ʀᴇꜱᴛʀɪᴄᴛ ᴜꜱᴇʀꜱ."
-            "\n➩ ɪ ʜᴀᴠᴇ ᴀɴ ᴀᴅᴠᴀɴᴄᴇᴅ ᴀɴᴛɪ-ꜰʟᴏᴏᴅ ꜱʏꜱᴛᴇᴍ."
-            "\n➩ ᴀᴅᴠᴀɴᴄᴇ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ᴄᴀᴘᴀʙɪʟɪᴛʏ."
-            "\n➩ ᴀɴɪᴍᴇ ʙᴏᴛ ғᴜɴᴄᴛɪᴏɴᴀʟɪᴛʏ."
-            "\n➩ ᴀɪ ɪɴᴛᴇɢʀᴀᴛɪᴏɴ."
-            f"\n\n➩ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ғᴏʀ ɢᴇᴛᴛɪɴɢ ʙᴀsɪᴄ ʜᴇʟᴩ ᴀɴᴅ ɪɴғᴏ ᴀʙᴏᴜᴛ {dispatcher.bot.first_name}.",
+        query.message.edit_text(
+            text=f"""
+            𝐇𝙴𝚈 ᴅᴇᴀʀ,
+
+𝚃ʜɪs 𝙸s 𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄, 𝙰ɴᴅ 𝙸ᴛ's 𝙸ᴄᴏɴɪᴄ 𝙸ɴ 𝚃ʜᴇ ʀᴇᴀʟ 𝚂ᴇɴsᴇ 𝙰s 𝙸ᴛ 𝙸s 𝙰ɴ 𝙸ɴᴛᴇʟʟɪɢᴇɴᴛ + 𝙾ʙᴇᴅɪᴇɴᴛ 𝙱ᴏᴛ !!
+ 
+𝙸ᴛ 𝙷ᴀs 𝙰 𝙻ᴏᴛ 𝙾ғ 𝙵ᴇᴀᴛᴜʀᴇs 𝚆ʜɪᴄʜ 𝙸s 𝚃ʜᴇ 𝚁ᴇsᴜʟᴛ 𝙾ғ 𝙰ᴍᴀᴢɪɴɢ 𝙷ᴀʀᴅ 𝚆ᴏʀᴋ 𝙱ʏ 𝙾ᴜʀ 𝚃ᴇᴀᴍ #𝚁ᴀᴅɪᴜx-𝙽ᴇᴛᴡᴏʀᴋ... 
+
+𝙾ᴜᴛ 𝙾ғ 𝙼ᴀɴʏ 𝙵ᴇᴀᴛᴜʀᴇs, 𝚃ʜɪs 𝙱ᴏᴛ 𝙸s 𝙱ᴀsᴇᴅ 𝙾ɴ 𝚃ʜᴇ 𝙸ᴍᴀɢɪɴᴀʀʏ 𝙿ʀᴏᴛᴀɢᴏɴɪsᴛ 𝙸ᴄᴄʜᴀ 𝙱ᴏsᴇ 𝚆ʜɪᴄʜ 𝙰ʟsᴏ 𝙸s 𝙰ssɪsᴛᴀɴᴛ 𝙾ғ 𝙸ᴄᴏɴɪᴄ 𝙱ᴏᴛ !!
+
+𝙲ʜᴀᴛ 𝚆ɪᴛʜ 𝙷ᴇʀ, 𝙻ɪsᴛᴇɴ 𝙼ᴜsɪᴄ 𝚆ɪᴛʜ 𝙷ᴇʀ, 𝙴ɴᴊᴏʏ 𝚆ɪᴛʜ 𝙷ᴇʀ !!
+
+```𝐈𝙲𝙾𝙽𝙸𝙲'𝚂 𝐏𝚁𝙾𝙹𝙴𝙲𝚃 𝐈𝚂 𝐏𝙰𝚁𝚃𝙸𝙰𝙻𝙻𝚈 𝐂𝙻𝙾𝚂𝙴𝙳 𝐎𝙽𝙴, 𝐖𝙷𝙸𝙲𝙷 𝐍𝙴𝙴𝙳𝚂 𝐒𝙾𝙼𝙴 𝐃𝙾𝙽𝙰𝚃𝙸𝙾𝙽 𝐅𝚁𝙾𝙼 𝐘𝙾𝚄𝚁 𝐒𝙸𝙳𝙴 𝐓𝙾 𝐇𝙴𝙻𝙿 𝚈𝙾𝚄 𝐈𝙽 𝐆𝙴𝚃𝚃𝙸𝙽𝙶 𝐈𝚃'𝚂 𝐒𝙾𝚄𝚁𝙲𝙴 𝐂𝙾𝙳𝙴 !!!```
+\n\n ❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+          """  ,
             parse_mode=ParseMode.MARKDOWN,
-                                   
+            disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="ʜᴇʟᴘ ᴍᴇɴᴜ", callback_data="Main_help"
-                        ),
-                        InlineKeyboardButton(text="ɴʏᴋᴀᴀ ", url="https://t.me/nykaa_update"),
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʜᴏᴍᴇ", callback_data="Radiux_back"),
-                    ],
-                ]
-            ),
-            )
-    elif query.data == "Radiux_support":
-        query.message.edit_caption("**➩ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴊᴏɪɴ ᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴄʜᴀɴɴᴇʟ ᴛᴏ ʙᴏᴛ ᴜᴘᴅᴀᴛᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.**"
-            f"\n\n➩ ɪғ ᴀɴʏ ʙᴜɢ ɪɴ {dispatcher.bot.first_name}, ᴩʟᴇᴀsᴇ ʀᴇᴩᴏʀᴛ ɪᴛ ᴀᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ.",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"
+                            text="𝐎𝚆𝙽𝙴𝚁", url=f"https://t.me/the_realradiux"
                         ),
                         InlineKeyboardButton(
-                            text="ᴜᴘᴅᴀᴛᴇ", url=f"https://t.me/the_radiux_network"
+                            text="𝐒𝚄𝙿𝙿𝙾𝚁𝚃", 
+                            url="https://t.me/offtopic_community",
                         ),
                     ],
                     [
-                        InlineKeyboardButton(text="ʜᴏᴍᴇ", callback_data="Radiux_back"),
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Radiux_back"),
                     ],
                 ]
             ),
         )
     elif query.data == "Radiux_back":
         first_name = update.effective_user.first_name 
-        query.message.edit_caption(PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME,sql.num_users(),sql.num_chats()),
+        query.message.edit_text(
+            PM_START_TEXT.format(escape_markdown(first_name), (START_IMG), BOT_NAME),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
             timeout=60,
-        )
-def RadiuxManager_Main_Callback(update: Update, context: CallbackContext):
-    query = update.callback_query
-    if query.data == "Main_help":
-        query.message.edit_caption(f"""
- ✦ ʜᴇʀᴇ ɪꜱ ʜᴇʟᴘ ᴍᴇɴᴜ ꜰᴏʀ {BOT_NAME}
-""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ᴍᴀɴᴀɢᴇ", callback_data="help_back"),
-                        InlineKeyboardButton(text="ᴍᴜsɪᴄ", callback_data="Music_")
-                    ],
-                    [
-                        InlineKeyboardButton(text="ꜱᴘᴀᴍ", callback_data="Music_roy"),
-                        InlineKeyboardButton(text="ᴀɴɪᴍᴇ", callback_data="source_") 
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʜᴏᴍᴇ", callback_data="Radiux_back")
-                    ],
-                ]
-            ),
-            )
-    elif query.data=="basic_help":
-        query.message.edit_caption("""✿ ʜᴇʀᴇ ɪs ᴀʟʟ ᴀɴɪᴍᴇ ʀᴀɴᴅᴏᴍ ɪᴍɢᴇs ᴄᴏᴍᴍᴀɴᴅs.\n\n➩ /gecg ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ɢᴇᴄɢ ɪᴍɢ.\n➩ /avatar ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴀᴠᴀᴛᴀʀ ɪᴍɢ.\n➩ /foxgirl ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ғᴏxɢɪʀʟ sᴏᴜʀᴄᴇ ɪᴍᴀɢᴇs.\n➩ /waifus ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴡᴀɪғᴜ ɪᴍɢ.\n➩ /neko ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ sғᴡ ɴᴇᴋᴏ sᴏᴜʀᴄᴇ ɪᴍᴀɢᴇs.\n➩ /gasm ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴏʀɢᴀsᴍ ɪᴍɢ.\n➩ /cuddle ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴄᴜᴅᴅʟᴇ ɪᴍɢ.\n➩ /shinobu ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ sʜɪɴᴏʙᴜ ɪᴍɢ.\n➩ /megumin ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴍᴇɢᴜᴍɪɴ ɪᴍɢ.\n➩ /bully ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ʙᴜʟʟʏ ɪᴍɢ.\n➩ /cry ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴄʀʏ ɪᴍɢ.\n➩ /awoo ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴀᴡᴏᴏ ɪᴍɢ.""",parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help"),InlineKeyboardButton(text="ANIME", callback_data="Iconic_")
-                    ]
-                ]
-            ),
-            )
-    elif query.data=="Radiux_back":
-        query.message.edit_caption("""✿ ᴇxᴘᴇʀᴛ ᴄᴏᴍᴍᴀɴᴅs ✿
-
-❅ ᴀᴠᴀɪʟᴀʙʟᴇ ᴛᴏ ᴀᴅᴍɪɴs ❅
-
-➩  /unbanall ➛ ᴍᴇᴍʙᴇʀs ғʀᴏᴍ ʏᴏᴜʀ ɢʀᴏᴜᴘs
-➩  /unmuteall ➛ ᴜɴᴍᴜᴛᴇᴀʟʟ ᴀʟʟ ғʀᴏᴍ ʏᴏᴜʀ ɢʀᴏᴜᴘ
-
-❅ ᴘɪɴɴᴇᴅ Mᴇssᴀɢᴇs ❅
-
-➩  /pin ➛ [ᴍᴇssᴀɢᴇ] sᴇɴᴅs ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴛʜʀᴏᴜɢʜ ᴛʜᴇ ʙᴏᴛ ᴀɴᴅ ᴘɪɴs ɪᴛ.
-➩  /pin ➛ ᴘɪɴs ᴛʜᴇ ᴍᴇssᴀɢᴇ ɪɴ ʀᴇᴘʟʏ
-➩  /unpin ➛ ʀᴇᴍᴏᴠᴇs ᴛʜᴇ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ.
-➩  /adminlist ➛ ʟɪsᴛ ᴏғ ᴀʟʟ ᴛʜᴇ sᴘᴇᴄɪᴀʟ ʀᴏʟᴇs ᴀssɪɢɴᴇᴅ ᴛᴏ ᴜsᴇʀs.
-
-➩ /bug ➛ (ᴍᴇssᴀɢᴇ) ᴛᴏ sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴀɴᴅ ᴇʀʀᴏʀs ᴡʜɪᴄʜ ʏᴏᴜ ᴀʀᴇ ғᴀᴄɪɴɢ 
-ᴇx ➛ /bug Hᴇʏ Tʜᴇʀᴇ Is ᴀ sᴏᴍᴇᴛʜɪɴɢ ᴇʀʀᴏʀ @username ᴏғ ᴄʜᴀᴛ! .""",parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help"),InlineKeyboardButton(text="ꜱᴜᴘᴘᴏʀᴛ", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-            )                                        
-    elif query.data=="advance_help":
-        query.message.edit_caption("""✿ ʜᴇʀᴇ ɪs ᴀʟʟ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴄᴀᴛᴄʜᴇʀ ( ɢᴀʙʙᴀʀ ʜᴇʀᴇᴍ ) ᴀɴɪᴍᴇ ᴄᴏᴍᴍᴀɴᴅs.\n\n➩ /guess ➛ ᴛᴏ ɢᴜᴇss ᴄʜᴀʀᴀᴄᴛᴇʀ.\n➩ /fav ➛ ᴀᴅᴅ ʏᴏᴜʀ ғᴀᴠʀᴀᴛᴇ.\n➩ /trade ➛ ᴛᴏ ᴛʀᴀᴅᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs.\n➩ /gift ➛ ɢɪᴠᴇ ᴀɴʏ ᴄʜᴀʀᴀᴄᴛᴇʀ ғʀᴏᴍ ʏᴏᴜʀ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ᴛᴏ ᴀɴᴏᴛʜᴇʀ ᴜsᴇʀ.\n➩ /collection ➛ ᴛᴏ sᴇᴇ ʏᴏᴜʀ ᴄᴏʟʟᴇᴄᴛɪᴏɴ.\n➩ /topgroups ➛ sᴇᴇ ᴛᴏᴘ ɢʀᴏᴜᴘs, ᴘᴘʟ ɢᴜᴇssᴇs ᴍᴏsᴛ ɪɴ ᴛʜᴀᴛ ɢʀᴏᴜᴘs.\n➩ /top ➛ ᴛᴏᴏ sᴇᴇ ᴛᴏᴘ ᴜsᴇʀs.\n➩ /ctop ➛ ʏᴏᴜʀ ᴄʜᴀᴛ ᴛᴏᴘ.\n➩ /changetime ➛ ᴄʜᴀɴɢᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴀᴘᴘᴇᴀʀ ᴛɪᴍᴇ .\n➩ /herem ➛ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴄʜᴀᴛᴄʜ.""",parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help"),InlineKeyboardButton(text="ꜱᴜᴘᴘᴏʀᴛ", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-            )
-    elif query.data=="expert_help":
-        query.message.edit_caption(f"""✿ ʜᴇʀᴇ ɪs ᴀɪʀʀɪɴɢ, ᴍᴀɴɢᴀ, ᴄʜᴀʀᴀᴄᴛᴇʀ ᴀɴᴅ ᴇᴛᴄ.\n\n➩ /anime <anime> ➛ ʀᴇᴛᴜʀɴs ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜᴇ ᴀɴɪᴍᴇ.\n➩ /character <ᴄʜᴀʀᴀᴄᴛᴇʀ> ➛ ʀᴇᴛᴜʀɴs ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ.\n➩ /manga <ᴍᴀɴɢᴀ> ➛ ʀᴇᴛᴜʀɴs ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜᴇ ᴍᴀɴɢᴀ.\n➩ /user  <ᴜsᴇʀ> ➛ ʀᴇᴛᴜʀɴs ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴀ ᴍʏᴀɴɪᴍᴇʟɪsᴛ ᴜsᴇʀ.\n➩ /upcoming ➛ ʀᴇᴛᴜʀɴs ᴀ ʟɪsᴛ ᴏғ ɴᴇᴡ ᴀɴɪᴍᴇ ɪɴ ᴛʜᴇ ᴜᴘᴄᴏᴍɪɴɢ sᴇᴀsᴏɴs.\n➩ /kaizoku <ᴀɴɪᴍᴇ> ➛ sᴇᴀʀᴄʜ ᴀɴ ᴀɴɪᴍᴇ ᴏɴ ᴀɴɪᴍᴇᴋᴀɪᴢᴏᴋᴜ.ᴄᴏᴍ\n➩ /kayo <ᴀɴɪᴍᴇ> ➛ sᴇᴀʀᴄʜ ᴀɴ ᴀɴɪᴍᴇ ᴏɴ ᴀɴɪᴍᴇᴋᴀʏᴏ.ᴄᴏᴍ\n➩ /airing <ᴀɴɪᴍᴇ> ➛ ʀᴇᴛᴜʀɴs ᴀɴɪᴍᴇ ᴀɪʀɪɴɢ ɪɴғᴏ.\n\n➩ /latest ➛ ᴄʜᴇᴄᴋ ʟᴀᴛᴇsᴛ ᴀɴɪᴍᴇ sʜᴏᴡs ᴀɴᴅ ᴇᴘɪsᴏᴅᴇs.""",
-                                   
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help"),InlineKeyboardButton(text="ᴇxᴛʀᴀ", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-            )
-    elif query.data=="donation_help":
-        query.message.edit_caption("""💥 ᴀʀᴛɪғɪᴄɪᴀʟ ɪɴᴛᴇʟ ʟɪɢᴇɴᴄᴇ ғᴜɴᴄᴛɪᴏɴs 💥\n\n✿ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs ✿\n\n➩ ᴀʙᴏᴜᴛ ➛ ᴛʜᴇ ᴀᴅᴠᴀɴᴄᴇᴅ ᴄʜᴀᴛ ɢᴘᴛ ᴀɪ - 4 ᴍᴏᴅᴇʟ ꜰᴏʀ ᴀɴ ᴇɴʜᴀɴᴄᴇᴅ ᴄʜᴀᴛ ᴇxᴘᴇʀɪᴇɴᴄᴇ. \n\n➩ ᴛʜɪꜱ ɪꜱ ᴀ ɴᴇᴡ ꜰᴇᴀᴛᴜʀᴇ, ᴀɴᴅ ʏᴏᴜ ᴄᴀɴ ᴜꜱᴇ ɪᴛ ᴜɴʟɪᴍɪᴛᴇᴅʟʏ...\n\n➩ /ask ➛ ᴀ ᴄʜᴀᴛʙᴏᴛ ᴜsɪɴɢ ɢᴘᴛ ғᴏʀ ʀᴇsᴘᴏɴᴅɪɴɢ ᴛᴏ ᴜsᴇʀ ǫᴜᴇʀɪᴇs.""",parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [ 
-                    [
-                        InlineKeyboardButton(text="ʜᴏᴍᴇ", callback_data="Radiux_back"),InlineKeyboardButton(text="ꜱᴜᴘᴘᴏʀᴛ", callback_data="Main_help")
-                    ]
-                ]
-            ),
-            )  
-def Source_about_callback(update: Update, context: CallbackContext):
-    query = update.callback_query
-    if query.data == "source_":
-        query.message.edit_caption(
-            f"""✦ ʜᴇʀᴇ ɪs sᴏᴍᴇ ᴀɴɪᴍᴇ ᴄᴏᴍᴍᴀᴅs ғᴏʀ ʏᴏᴜʀ ɢʀᴏᴜᴘ.
-""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                     [
-                        InlineKeyboardButton(text="ᴡᴀɪғᴜs", callback_data="basic_help"),
-                        InlineKeyboardButton(text="ᴀɪʀɪɴɢ", callback_data="expert_help")
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʜᴇʀᴇᴍ", callback_data="advance_help"),
-                        InlineKeyboardButton(text="ᴀɴɪᴍᴇ-ɢɪғ", callback_data="Music_roy_extra") 
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help")
-                    ],
-                ]
-            ),
-        )
-    elif query.data == "source_back":
-        first_name = update.effective_user.first_name
-        query.message.edit_caption(
-            PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME,sql.num_users(),sql.num_chats()),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            timeout=60,
-            
+            disable_web_page_preview=False,
         )
 
-        
+
+run_async
 def Music_about_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     if query.data == "Music_":
-        query.message.edit_caption(f"""✿ ʜᴇʀᴇ ɪꜱ ʜᴇʟᴘ ᴍᴇɴᴜ ꜰᴏʀ ᴍᴜꜱɪᴄ ✿""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ᴀᴅᴍɪɴ", callback_data="Music_admin"
-                        ),
-                        InlineKeyboardButton(
-                            text="ᴘʟᴀʏ", callback_data="Music_play"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʙᴏᴛ", callback_data="Music_bot"),
-                        InlineKeyboardButton(
-                            text="ᴇxᴛʀᴀ",
-                            callback_data="Music_extra",
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help")
-                    ],
-                ]
-            ),
-        )
-    elif query.data == "Music_admin":
-        query.message.edit_caption(f"*✿ ᴀᴅᴍɪɴ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-            f"""
-❅ ᴀᴅᴍɪɴs ᴀɴᴅ ᴀᴜᴛʜ ᴜsᴇʀᴀ ᴄᴏᴍᴍᴀɴᴅs ❅
-
-➩ /pause ➛ ᴩᴀᴜsᴇ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
-
-➩ /resume ➛ ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴩᴀᴜsᴇᴅ sᴛʀᴇᴀᴍ.
-
-➩ /skip ➛ sᴋɪᴩ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ ᴀɴᴅ sᴛᴀʀᴛ sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ɴᴇxᴛ ᴛʀᴀᴄᴋ ɪɴ ǫᴜᴇᴜᴇ.
-
-➩ /end ᴏʀ /stop ➛ ᴄʟᴇᴀʀs ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀɴᴅ ᴇɴᴅ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
-
-➩ /player ➛ ɢᴇᴛ ᴀ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴩʟᴀʏᴇʀ ᴩᴀɴᴇʟ.
-
-➩ /queue ➛ sʜᴏᴡs ᴛʜᴇ ǫᴜᴇᴜᴇᴅ ᴛʀᴀᴄᴋs ʟɪsᴛ.
+        query.message.edit_text(
+            text=f"""
+ **👀 𝐇𝐞𝐲 𝐁𝐚𝐛𝐲 🖤\n\n🌺 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐓𝐨 {dispatcher.bot.first_name} ❣️\n\n❤️ 𝐈 𝐀ᴍ 𝐀 𝐒ᴜᴘᴇʀꜰᴀꜱᴛ 𝐌ᴀɴᴀɢᴇᴍᴇɴᴛ 𝐀ɴᴅ 𝐕ᴄ 𝐏ʟᴀʏᴇʀ  𝐖ɪᴛʜ 𝟐𝟒𝐱𝟕 𝐀ᴄᴛɪᴠᴇ 𝐅ᴏʀ 𝐓ᴇʟᴇɢʀᴀᴍ 𝐆ʀᴏᴜᴘꜱ 𝐀ɴᴅ 𝐂ʜᴀɴɴᴇʟ ❣️
+💛 𝐅ᴇᴇʟ 𝐅ʀᴇᴇ 𝐓ᴏ 𝐀ᴅᴅ 𝐌ᴇ 𝐈ɴ 𝐘ᴏᴜʀ 𝐆ʀᴏᴜᴘ 𝐀ɴᴅ 𝐄ɴᴊᴏʏ 𝐒ᴜᴘᴇʀ 𝐇ɪɢʜ 𝐐ᴜᴀʟɪᴛʏ 𝐀ᴜᴅɪᴏ 𝐀ɴᴅ 𝐕ɪᴅᴇᴏ ❣️\n\n❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) 💞** 
 """,
             parse_mode=ParseMode.MARKDOWN,
-            
+            disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_"),InlineKeyboardButton(text="ᴛᴏᴏʟs", callback_data="Radiux_support")
+                        
+                InlineKeyboardButton(
+                    text="𝐀𝙳𝙼𝙸𝙽",
+                    callback_data="Music_1",
+                ),
+                        InlineKeyboardButton(text="𝐔𝚂𝙴𝚁𝚂", callback_data="Music_2"),
+              ],
+                 
+                [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Radiux_back"),
+                    ],
+                ]
+           ),
+        )
+    elif query.data == "Music_1":
+        query.message.edit_text(
+            text=f"*❣️ Ꭺ𝙳𝙼𝙸𝙽's Ꮯ𝙾𝙼𝙼𝙰𝙽𝙳s ❣️*"
+            f"""
+            
+💓 ᴊᴜsᴛ ᴀᴅᴅ ᴄ ɪɴ ᴛʜᴇ sᴛᴀʀᴛɪɴɢ ᴏғ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅs ᴛᴏ ᴜsᴇ ᴛʜᴇᴍ ғᴏʀ ᴄʜᴀɴɴᴇʟ. 💓
+
+/pause : ᴩᴀᴜsᴇ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
+
+/resume : ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴩᴀᴜsᴇᴅ sᴛʀᴇᴀᴍ.
+
+/skip : sᴋɪᴩ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ ᴀɴᴅ sᴛᴀʀᴛ sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ɴᴇxᴛ ᴛʀᴀᴄᴋ ɪɴ ǫᴜᴇᴜᴇ.
+
+/end ᴏʀ /stop : ᴄʟᴇᴀʀs ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀɴᴅ ᴇɴᴅ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
+
+/player : ɢᴇᴛ ᴀ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴩʟᴀʏᴇʀ ᴩᴀɴᴇʟ.
+
+/queue : sʜᴏᴡs ᴛʜᴇ ǫᴜᴇᴜᴇᴅ ᴛʀᴀᴄᴋs ʟɪsᴛ.
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_"),
                     ]
                 ]
             ),
         )
-    elif query.data == "Music_play":
-        query.message.edit_caption(f"*✿ ᴘʟᴀʏ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
+    elif query.data == "Music_2":
+        query.message.edit_text(
+            text=f"❣️ *ƲƧЄƦ'Ꮥ ƇƠMMᗅƝƊS* ❣️"
             f"""
-➩ /play ᴏʀ /vplay ᴏʀ /cplay ➛ ʙᴏᴛ ᴡɪʟʟ ꜱᴛᴀʀᴛ ᴘʟᴀʏɪɴɢ ʏᴏᴜʀ ɢɪᴠᴇɴ ϙᴜᴇʀʏ on ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴏʀ ꜱᴛʀᴇᴀᴍ ʟɪᴠᴇ ʟɪɴᴋꜱ ᴏɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛꜱ.
 
-➩ /playforce ᴏʀ /vplayforce ᴏʀ /cplayforce ➛ ғᴏʀᴄᴇ ᴘʟᴀʏ ꜱᴛᴏᴘꜱ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴘʟᴀʏɪɴɢ ᴛʀᴀᴄᴋ ᴏɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀɴᴅ ꜱᴛᴀʀᴛꜱ ᴘʟᴀʏɪɴɢ ᴛʜᴇ ꜱᴇᴀʀᴄʜᴇᴅ ᴛʀᴀᴄᴋ ɪɴꜱᴛᴀɴᴛʟʏ ᴡɪᴛʜᴏᴜᴛ ᴅɪꜱᴛᴜʀʙɪɴɢ/clearing queue.
+❍ /mstart ➛ ꜱᴛᴀʀᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ ʙᴏᴛ.
 
-➩ /channelplay ➛ [ᴄʜᴀᴛ ᴜꜱᴇʀɴᴀᴍᴇ ᴏʀ ɪᴅ] ᴏʀ [ᴅɪꜱᴀʙʟᴇ] - ᴄᴏɴɴᴇᴄᴛ ᴄʜᴀɴɴᴇʟ ᴛᴏ ᴀ ɢʀᴏᴜᴘ ᴀɴᴅ ꜱᴛʀᴇᴀᴍ ᴍᴜꜱɪᴄ ᴏɴ ᴄʜᴀɴɴᴇʟ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ғʀᴏᴍ ʏᴏᴜʀ ɢʀᴏᴜᴘ.
+❍ /mhelp ➛ ɢᴇᴛ ᴄᴏᴍᴍᴀɴᴅꜱ ʜᴇʟᴘᴇʀ ᴍᴇɴᴜ ᴡɪᴛʜ ᴅᴇᴛᴀɪʟᴇᴅ ᴇxᴘʟᴀɴᴀᴛɪᴏɴꜱ ᴏғ ᴄᴏᴍᴍᴀɴᴅꜱ.
 
- ❅ ʙᴏᴛ ꜱᴇʀᴠᴇʀ ᴘʟᴀʏʟɪꜱᴛꜱ ❅
- 
-➩ /playlist ➛ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ꜱᴀᴠᴇᴅ ᴘʟᴀʏʟɪꜱᴛ ᴏɴ ꜱᴇʀᴠᴇʀꜱ.
-➩ /deleteplaylist ➛ ᴅᴇʟᴇᴛᴇ ᴀɴʏ ꜱᴀᴠᴇᴅ ᴍᴜꜱɪᴄ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪꜱᴛ
-➩ /play ➛ ꜱᴛᴀʀᴛ ᴘʟᴀʏɪɴɢ ʏᴏᴜʀ ꜱᴀᴠᴇᴅ ᴘʟᴀʏʟɪꜱᴛ ғʀᴏᴍ ꜱᴇʀᴠᴇʀꜱ.
-""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Music_"),InlineKeyboardButton(text="ᴇxᴛʀᴀ", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_bot":
-        query.message.edit_caption(f"*✿ ʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-           
-            f"""
-➩ /stats ➛ ɢᴇᴛ ᴛᴏᴘ 10 ᴛʀᴀᴄᴋꜱ ɢʟᴏʙᴀʟ ꜱᴛᴀᴛꜱ, ᴛᴏᴘ 10 ᴜꜱᴇʀꜱ ᴏғ ʙᴏᴛ, ᴛᴏᴘ 10 ᴄʜᴀᴛꜱ ᴏɴ ʙᴏᴛ, ᴛᴏᴘ 10 ᴘʟᴀʏᴇᴅ ɪɴ ᴀ ᴄʜᴀᴛ ᴇᴛᴄ ᴇᴛᴄ.
-
-➩ /sudolist ➛ ᴄʜᴇᴄᴋ sᴜᴅᴏ ᴜsᴇʀs ᴏғ ᴀʙɢ  ʙᴏᴛ
-
-➩ /lyrics [ᴍᴜsɪᴄ ɴᴀᴍᴇ] ➛ sᴇᴀʀᴄʜᴇs ʟʏʀɪᴄs ғᴏʀ ᴛʜᴇ ᴘᴀʀᴛɪᴄᴜʟᴀʀ ᴍᴜsɪᴄ ᴏɴ ᴡᴇʙ.
-
-➩ /song [ᴛʀᴀᴄᴋ ɴᴀᴍᴇ] or [ʏᴛ ʟɪɴᴋ] ➛ ᴅᴏᴡɴʟᴏᴀᴅ ᴀɴʏ ᴛʀᴀᴄᴋ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ ɪɴ ᴍᴘ3 or ᴍᴘ4 ғᴏʀᴍᴀᴛꜱ.
-
-➩ /player ➛  ɢᴇt ᴀ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴘʟᴀʏɪɴɢ ᴘᴀɴᴇʟ.
-
-❅ c ꜱᴛᴀɴᴅꜱ ꜰᴏʀ ᴄʜᴀɴɴᴇʟ ᴘʟᴀʏ ❅
-
-➩ /queue ᴏʀ /cqueue ➛ ᴄʜᴇᴄᴋ Qᴜᴇᴜᴇ ʟɪꜱᴛ ᴏꜰ ᴍᴜꜱɪᴄ.
-""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_"),InlineKeyboardButton(text="ᴛᴏᴏʟs", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_extra":
-        query.message.edit_caption(f"*✿ ᴇxᴛʀᴀ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-            
-             f"""
-➩ /mstart ➛ ꜱᴛᴀʀᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ ʙᴏᴛ.
-
-➩ /mhelp ➛ ɢᴇᴛ ᴄᴏᴍᴍᴀɴᴅꜱ ʜᴇʟᴘᴇʀ ᴍᴇɴᴜ ᴡɪᴛʜ ᴅᴇᴛᴀɪʟᴇᴅ ᴇxᴘʟᴀɴᴀᴛɪᴏɴꜱ ᴏғ ᴄᴏᴍᴍᴀɴᴅꜱ.
-
-➩ /ping ➛ ᴘɪɴɢ ᴛʜᴇ ʙᴏᴛ ᴀɴᴅ ᴄʜᴇᴄᴋ ʀᴀᴍ, ᴄᴘᴜ ᴇᴛᴄ ꜱᴛᴀᴛꜱ ᴏғ ʙᴏᴛ.
+❍ /ping ➛ ᴘɪɴɢ ᴛʜᴇ ʙᴏᴛ ᴀɴᴅ ᴄʜᴇᴄᴋ ʀᴀᴍ, ᴄᴘᴜ ᴇᴛᴄ ꜱᴛᴀᴛꜱ ᴏғ ʙᴏᴛ.
 
 *❅ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ ❅*
 
-➩ /settings ➛ ɢᴇᴛ a ᴄᴏᴍᴘʟᴇᴛᴇ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ ᴡɪᴛʜ ɪɴʟɪɴᴇ ʙᴜᴛᴛᴏɴꜱ
+❍ /settings ➛ ɢᴇᴛ a ᴄᴏᴍᴘʟᴇᴛᴇ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ ᴡɪᴛʜ ɪɴʟɪɴᴇ ʙᴜᴛᴛᴏɴꜱ
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
 """,
             parse_mode=ParseMode.MARKDOWN,
-            
+            disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_"),InlineKeyboardButton(text="ᴛᴏᴏʟs", callback_data="Radiux_support")
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_"),
                     ]
+                ]
+            ),
+        )
+    elif query.data == "Music_3":
+        query.message.edit_text(
+            text=
+            f""" 
+
+✿ ʜᴇʀᴇ ɪs ᴀʟʟ ᴀɴɪᴍᴇ ʀᴀɴᴅᴏᴍ ᴄᴏᴍᴍᴀɴᴅs.\n\n❍ /gecg ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ɢᴇᴄɢ ɪᴍɢ.\n❍ /avatar ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴀᴠᴀᴛᴀʀ ɪᴍɢ.\n❍ /foxgirl ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ғᴏxɢɪʀʟ sᴏᴜʀᴄᴇ ɪᴍᴀɢᴇs.\n❍ /waifus ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴡᴀɪғᴜ ɪᴍɢ.\n❍ /neko ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ sғᴡ ɴᴇᴋᴏ sᴏᴜʀᴄᴇ ɪᴍᴀɢᴇs.\n❍ /gasm ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴏʀɢᴀsᴍ ɪᴍɢ.\n❍ /cuddle ➛ sᴇɴᴅs ʀᴀɴᴅᴏᴍ ᴄᴜᴅᴅʟᴇ ɪᴍɢ.\n❍ /shinobu ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ sʜɪɴᴏʙᴜ ɪᴍɢ.\n❍ /megumin ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴍᴇɢᴜᴍɪɴ ɪᴍɢ.\n❍ /bully ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ʙᴜʟʟʏ ɪᴍɢ.\n❍ /cry ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴄʀʏ ɪᴍɢ.\n❍ /awoo ➛ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴀᴡᴏᴏ ɪᴍɢ.
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_5"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_4":
+        query.message.edit_text(
+            text=
+            f"""
+✿ ʜᴇʀᴇ ɪs ᴀʟʟ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴄᴀᴛᴄʜᴇʀ ( ɢᴀʙʙᴀʀ ʜᴇʀᴇᴍ ) ᴀɴɪᴍᴇ ᴄᴏᴍᴍᴀɴᴅs.\n\n❍ /guess ➛ ᴛᴏ ɢᴜᴇss ᴄʜᴀʀᴀᴄᴛᴇʀ.\n❍ /fav ➛ ᴀᴅᴅ ʏᴏᴜʀ ғᴀᴠʀᴀᴛᴇ.\n❍ /trade ➛ ᴛᴏ ᴛʀᴀᴅᴇ ᴄʜᴀʀᴀᴄᴛᴇʀs.\n❍ /gift ➛ ɢɪᴠᴇ ᴀɴʏ ᴄʜᴀʀᴀᴄᴛᴇʀ ғʀᴏᴍ ʏᴏᴜʀ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ᴛᴏ ᴀɴᴏᴛʜᴇʀ ᴜsᴇʀ.\n❍ /collection ➛ ᴛᴏ sᴇᴇ ʏᴏᴜʀ ᴄᴏʟʟᴇᴄᴛɪᴏɴ.\n❍ /topgroups ➛ sᴇᴇ ᴛᴏᴘ ɢʀᴏᴜᴘs, ᴘᴘʟ ɢᴜᴇssᴇs ᴍᴏsᴛ ɪɴ ᴛʜᴀᴛ ɢʀᴏᴜᴘs.\n❍ /top ➛ ᴛᴏᴏ sᴇᴇ ᴛᴏᴘ ᴜsᴇʀs.\n❍ /ctop ➛ ʏᴏᴜʀ ᴄʜᴀᴛ ᴛᴏᴘ.\n❍ /changetime ➛ ᴄʜᴀɴɢᴇ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴀᴘᴘᴇᴀʀ ᴛɪᴍᴇ .\n❍ /herem ➛ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴄʜᴀʀᴀᴄᴛᴇʀ ᴄʜᴀᴛᴄʜ.
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_5"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_5":
+        query.message.edit_text(
+            text=
+            f"""
+💗 𝐇𝙴𝚁𝙴 𝐀𝚁𝙴 𝐘𝙾𝚄𝚁 𝐀𝙽𝙸𝙼𝙴 𝐑𝙴𝙻𝙰𝚃𝙴𝙳 𝐌𝙾𝙳𝙴𝚂, 𝐂𝙷𝙾𝚂𝙴 𝐀𝙽𝚈 𝐎𝙵 𝐓𝙷𝙴𝙼 𝐓𝙾 𝐂𝙾𝙽𝚃𝙸𝙽𝚄𝙴 💗
+
+💕 𝐀𝙻𝚂𝙾, 𝐓𝙷𝙴𝚁𝙴 𝐀𝚁𝙴 𝐌𝙰𝙽𝚈 𝐌𝙾𝙳𝚄𝙻𝙴𝚂 𝐈𝙽 𝐇𝙴𝙻𝙿 & 𝐂𝙾𝙼𝙼𝙰𝙽𝙳𝚂 𝐅𝙾𝚁 𝐀𝙽𝙸𝙼𝙴 𝐋𝙾𝚅𝙴𝚁𝚂 !! 💕
+
+💖 𝐔𝚂𝙴 /help 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐓𝙾 𝐂𝙷𝙴𝙲𝙺 𝐀𝙻𝙻 𝐎𝙵 𝐓𝙷𝙴𝙼 💖
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text = "𝐖𝙰𝙸𝙵𝚄𝚂", callback_data="Music_3"),
+                        InlineKeyboardButton(text= "𝐇𝙴𝚁𝙴𝙼", callback_data="Music_4"),
+                    ],
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_11"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_6":
+        query.message.edit_text(
+            text=
+            f"""
+ᥫᩣ ʕ˖͜͡˖ʔ 𝐇𝙴𝚁𝙴 𝐈𝚂 𝐘𝙾𝚄𝚁 𝐇𝙴𝙻𝙿 & 𝐂𝙾𝙼𝙼𝙰𝙽𝙳𝚂 𝐑𝙴𝙻𝙰𝚃𝙴𝙳 𝐓𝙾 𝐑𝙰𝙸𝙳 𝐅𝙴𝙰𝚃𝚄𝚁𝙴 𝐈𝙽 𝐈𝙲𝙾𝙽𝙸𝙲 𝐑𝙾𝙱𝙾𝚃 ʕ˖͜͡˖ʔ ᥫᩣ
+
+
+➩ Spam a message multiple times in the chat.
+
+➩ /spam <count> <message>
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_9"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_7":
+        query.message.edit_text(
+            text=
+            f"""
+𒈒 𝐇𝙴𝚁𝙴 𝐈𝚂 𝐘𝙾𝚄𝚁 𝐇𝙴𝙻𝙿 & 𝐂𝙾𝙼𝙼𝙰𝙽𝙳𝚂 𝐑𝙴𝙻𝙰𝚃𝙴𝙳 𝐓𝙾 𝐑𝙰𝙸𝙳 𝐅𝙴𝙰𝚃𝚄𝚁𝙴 𝐈𝙽 𝐈𝙲𝙾𝙽𝙸𝙲 𝐑𝙾𝙱𝙾𝚃 𒈒
+
+➩ /raid <count> <@username>: *Spam raid messages tagging the specified user.*
+
+➩ /mraid <count> <@username>: *Spam Mraid messages tagging the specified user.*
+
+➩ /sraid <count> <@username>: *Spam Sraid messages tagging the specified user.*
+
+➩ /rraid start: *Start reply raid on the user you're replying to. Every message they send will be auto-replied with a random message.*
+
+➩ /rraid stop: *Stop the reply raid in the current chat.*
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_9"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_8":
+        query.message.edit_text(
+            text=
+            f"""
+
+ᰔᩚ Usᴇ `/chatbot on` ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴜsᴇ Iᴄᴏɴɪᴄ Bᴏᴛ's Cʜᴀᴛʙᴏᴛ ɪɴ ʏᴏᴜʀ ʀᴇsᴘᴇᴄᴛɪᴠᴇ ɢʀᴏᴜᴘs !! ᰔᩚ
+
+━━━━━━━━━━━━━━━━━━━━
+
+💕 **𝙸𝚝'𝚜 𝚋𝚊𝚜𝚎𝚍 𝚘𝚗 𝚒𝚖𝚊𝚐𝚒𝚗𝚊𝚛𝚢 𝚌𝚑𝚊𝚛𝚊𝚌𝚑𝚝𝚎𝚛 `𝙸𝙲𝙲𝙷𝙰 𝙱𝙾𝚂𝙴` 𝚠𝚑𝚘 𝚠𝚒𝚕𝚕 𝚌𝚑𝚊𝚝 𝚠𝚒𝚝𝚑 𝚢𝚘𝚞 𝚊𝚗𝚢𝚝𝚒𝚖𝚎 𝚊𝚌𝚌𝚘𝚛𝚍𝚒𝚗𝚐 𝚝𝚘 𝚢𝚘𝚞𝚛 𝚘𝚛𝚍𝚎𝚛𝚜 !!!** 💕
+
+💝 **𝙹𝚞𝚜𝚝 𝚝𝚢𝚙𝚎 𝚊 𝚖𝚎𝚜𝚜𝚊𝚐𝚎 𝚛𝚎𝚙𝚕𝚢𝚒𝚗𝚐 𝚘𝚛 𝚝𝚊𝚐𝚐𝚒𝚗𝚐 𝙸𝚌𝚘𝚗𝚒𝚌 𝚊𝚗𝚍 𝚢𝚘𝚞 𝚠𝚒𝚕𝚕 𝚐𝚎𝚝 𝚊 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚛𝚎𝚜𝚙𝚘𝚗𝚜𝚎 𝚋𝚢 𝙸𝚌𝚌𝚑𝚊** 💝
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_11"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_9":
+        query.message.edit_text(
+            text=
+            f"""
+✿ ʜᴇʀᴇ ɪꜱ ʜᴇʟᴘ ᴍᴇɴᴜ ꜰᴏʀ ꜱᴘᴀᴍ ʀᴀɪᴅ ✿
+
+**𝐍𝐎𝐓𝐄 ➩ 𝐓𝙾 𝐔𝚂𝙴 𝐓𝙷𝙴𝚂𝙴 𝐂𝙾𝙼𝙼𝙰𝙽𝙳𝚂 𝐘𝙾𝚄 𝐌𝚄𝚂𝚃 𝐁𝙴 𝐎𝚆𝙽𝙴𝚁 𝐎𝚁 𝐀𝙳𝙼𝙸𝙽 𝐎𝙵 𝐀 𝐏𝙾𝙿𝚄𝙻𝙰𝚁 𝐂𝙷𝙰𝚃 𝐎𝚁 𝐂𝙷𝙰𝙽𝙽𝙴𝙻,**
+
+**𝐈𝙵 𝐘𝙾𝚄 𝐀𝚁𝙴 𝐀𝙿𝙿𝙻𝙸𝙲𝙰𝙱𝙻𝙴, 𝐉𝙾𝙸𝙽 ➩ [𝐑𝙰𝙳𝙸𝚄𝚇 𝐒𝚄𝙿𝙿𝙾𝚁𝚃](https://t.me/The_Radiux_Support) 𝐀𝙽𝙳 𝐓𝙰𝙺𝙴 𝐒𝚄𝙳𝙾 𝐅𝚁𝙾𝙼 𝐓𝙷𝙴𝚁𝙴 !!**
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐑𝙰𝙸𝙳", callback_data="Music_7"),
+                        InlineKeyboardButton(text="𝐒𝙿𝙰𝙼", callback_data="Music_6"),
+                    ],
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_11"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_10":
+        query.message.edit_text(
+            text=
+            f"""
+━━━━━━━━━━━━━━━━━━━━
+➳ 𝐂ᴏᴍᴍᴀɴᴅ: /ask
+
+💘 𝐀ʙᴏᴜᴛ: ᴜꜱᴇ ᴛʜᴇ /ask ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ɪɴᴛᴇʀᴀᴄᴛ ᴡɪᴛʜ ᴛʜᴇ ᴀᴅᴠᴀɴᴄᴇᴅ 𝙲𝙷𝙰𝚃 𝙶𝙿𝚃-𝟺 ᴍᴏᴅᴇʟ ꜰᴏʀ ᴀɴ ᴇɴʜᴀɴᴄᴇᴅ ᴄʜᴀᴛ ᴇxᴘᴇʀɪᴇɴᴄᴇ. ᴛʜɪꜱ ɪꜱ ᴀ ɴᴇᴡ ꜰᴇᴀᴛᴜʀᴇ, ᴀɴᴅ ʏᴏᴜ ᴄᴀɴ ᴜꜱᴇ ɪᴛ ᴜɴʟɪᴍɪᴛᴇᴅʟʏ...
+
+💗 𝐅ᴇᴀᴛᴜʀᴇꜱ: /ask ყσυɾ ɱεssαցҽ -- ɪɴɪᴛɪᴀᴛᴇ ᴀ ᴄᴏɴᴠᴇʀꜱɪᴏɴ ᴡɪᴛʜ 𝙲𝙷𝙰𝚃 𝙶𝙿𝚃-𝟺, ᴀɴᴅ ɪᴛ ᴡɪʟʟ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴏᴜɢʜᴛꜰᴜʟ ᴀɴᴅ ᴄᴏɴᴛᴇxᴛᴡᴀʀᴇ ʀᴇꜱᴘᴏɴꜱᴇꜱ.
+
+╰┈➤𝐍ᴏᴛᴇ : 𝚃𝙷𝙸𝚂 𝙵𝙴𝙰𝚃𝚄𝚁𝙴 𝙸𝚂 𝙰𝚅𝙰𝙸𝙻𝙰𝙱𝙻𝙴 𝙵𝙾𝚁 𝙰𝙻𝙻 𝚄𝚂𝙴𝚁𝚂, 𝙰𝙽𝙳 𝙸𝚃 𝙰𝙳𝙳 𝙰 𝙿𝙾𝚆𝙴𝚁𝙵𝚄𝙻 𝙳𝙸𝙼𝙴𝙽𝚂𝙸𝙾𝙽 𝚃𝙾 𝚈𝙾𝚄𝚁 𝙲𝙷𝙰𝚃 𝙸𝙽𝚃𝙴𝚁𝙰𝙲𝚃𝙸𝙾𝙽𝚂. 𝙴𝙽𝙹𝙾𝚈 𝚃𝙷𝙴 𝚄𝙿𝙶𝚁𝙰𝙳𝙴𝙳 𝙲𝙰𝙿𝙰𝙱𝙸𝙻𝙸𝚃𝙸𝙴𝚂 ᴏғ  𝐂𝐇𝐀𝐓 𝐆𝐏𝐓-𝟒 𝚂𝙴𝙰𝙼𝙻𝙴𝚂𝚂𝙻𝚈!
+
+━━━━━━━━━━━━━━━━━━━━
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️
+""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Music_11"),
+                    ]
+                ]
+            ),
+        )
+    elif query.data == "Music_11":
+        query.message.edit_text(
+            text=f"*𝐂𝙷𝙾𝚂𝙴 𝐀𝙽𝚈 𝐎𝙵 𝐓𝙷𝙴 𝐌𝙾𝙳𝙴𝚂 𝐓𝙾 𝐂𝙾𝙽𝚃𝙸𝙽𝚄𝙴*"
+            f"""
+
+
+❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) ❣️ """,
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(text="𝐒𝙿𝙰𝙼-𝐌𝙴𝙽𝚄", callback_data="Music_9"),
+                        InlineKeyboardButton(text="𝐈𝙲𝙲𝙷𝙰-𝐂𝙷𝙰𝚃-𝐁𝙾𝚃", callback_data="Music_8"),
+                    ],
+                    [
+                        InlineKeyboardButton(text="𝐂𝙷𝙰𝚃 𝐆𝙿𝚃", callback_data="Music_10"),
+                        InlineKeyboardButton(text="𝐀𝙽𝙸𝙼𝙴", callback_data="Music_5"),
+                    ],
+
+                        [
+                        InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="Radiux_back"),
+                    ],
                 ]
             ),
         )
     elif query.data == "Music_back":
         first_name = update.effective_user.first_name
-        query.message.edit_caption(PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME),
+        query.message.edit_text(
+            PM_START_TEXT.format(escape_markdown(first_name), (START_IMG), BOT_NAME),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
             timeout=60,
-
+            disable_web_page_preview=False,
         )
 
-    query = update.callback_query
-    if query.data == "Music_roy":
-        query.message.edit_caption(f"""✿ ʜᴇʀᴇ ɪꜱ ʜᴇʟᴘ ᴍᴇɴᴜ ꜰᴏʀ ꜱᴘᴀᴍ ʀᴀɪᴅ ✿""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ꜱᴘᴀᴍ", callback_data="Music_roy_admin"
-                        ),
-                        InlineKeyboardButton(
-                            text="ʀᴀɪᴅ", callback_data="Music_roy_play"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(text="ᴏᴡɴᴇʀ", callback_data="Music_roy_bot"),
-                        InlineKeyboardButton(
-                            text="ᴄʜᴀᴛ-ᴀɪ",
-                            callback_data="donation_help",
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Main_help")
-                    ],
-                ]
-            ),
-        )
-    elif query.data == "Music_roy_admin":
-        query.message.edit_caption(f"*✿ ꜱᴘᴀᴍ  ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-            f"""\n\n֍ 𝗦𝗽𝗮𝗺 ➠ ๏ ꜱᴘᴀᴍꜱ ᴀ ᴍᴇꜱꜱᴀɢᴇ. ๏\n  ๛ /spam <count> <message to spam> (you can reply any message if you want bot to reply that message and do spamming)\n  ๛ /spam <count> <replying any message>\n\n֍ 𝗣𝗼𝗿𝗻𝗦𝗽𝗮𝗺 ➠ ๏ ᴘᴏʀᴍᴏɢʀᴀᴘʜʏ ꜱᴘᴀᴍ. ๏\n  ๛ /pspam <count>\n\n֍ 𝗛𝗮𝗻𝗴 ➠ ๏ ꜱᴘᴀᴍꜱ ʜᴀɴɢɪɴɢ ᴍᴇꜱꜱᴀɢᴇ ꜰᴏʀ ɢɪᴠᴇɴ ᴄᴏᴜɴᴛᴇʀ.""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_roy"),InlineKeyboardButton(text="ᴛᴏᴏʟs", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_roy_play":
-        query.message.edit_caption(f"*✿ ʀᴀɪᴅ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-            f"""\n\n֍ 𝗥𝗮𝗶𝗱 ➠ ๏ ᴀᴄᴛɪᴠᴀᴛᴇꜱ ʀᴀɪᴅ ᴏɴ ᴀɴʏ ɪɴᴅɪᴠɪᴅᴜᴀʟ ᴜꜱᴇʀ ꜰᴏʀ ɢɪᴠᴇɴ ʀᴀɴɢᴇ. ๏\n  ๛ /raid <count> <username>\n  ๛ /raid <count> <reply to user>\n\n֍ 𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱 ➠ ๏ ᴀᴄᴛɪᴠᴀᴛᴇꜱ ʀᴇᴘʟʏ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ. ๏\n  ๛ /rraid <replying to user>\n  ๛ /rraid <username>\n\n֍ 𝗗𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱 ➠ ๏ ᴅᴇᴀᴄᴛɪᴠᴀᴛᴇꜱ ʀᴇᴘʟʏ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ. ๏\n  ๛ /drraid <replying to user>\n  ๛ /drraid <username>\n\n֍ 𝐌𝐑𝐚𝐢𝐝 ➠ ๏ ʟᴏᴠᴇ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ. ๏\n  ๛ /mraid <count> <username>\n  ๛ /mraid <count> <reply to user>\n\n֍ 𝐒𝐑𝐚𝐢𝐝 ➠ ๏ ꜱʜᴀʏᴀʀɪ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ. ๏\n  ๛ /sraid <count> <username>\n  ๛ /sraid <count> <reply to user>\n\n֍ 𝐂𝐑𝐚𝐢𝐝 ➠ ๏ ᴀʙᴄᴅ ʀᴀɪᴅ ᴏɴ ᴛʜᴇ ᴜꜱᴇʀ. ๏\n  ๛ /craid <count> <username>\n  ๛ /craid <count> <reply to user>""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="Music_roy"),InlineKeyboardButton(text="ᴇxᴛʀᴀ", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_roy_bot":
-        query.message.edit_caption(f"*✿ ʙᴏᴛ ᴏᴡɴᴇʀ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-           
-            f"""\n\n֍ 𝗨𝘀𝗲𝗿𝗕𝗼𝘁 ➠ ๏ ᴜꜱᴇʀʙᴏᴛ ᴄᴍᴅꜱ ๏\n  ๛ /ping \n  ๛ /reboot\n  ๛ /sudo <reply to user>  ➛ Owner Cmd\n  ๛ /logs ➛ Owner Cmd\n\n֍ 𝗘𝗰𝗵𝗼 ➠ ๏ ᴛᴏ ᴀᴄᴛɪᴠᴇ ᴇᴄʜᴏ ᴏɴ ᴀɴʏ ᴜꜱᴇʀ ๏\n  ๛ /echo <reply to user>\n  ๛ /rmecho <reply to user>\n\n֍ 𝗟𝗲𝗮𝘃𝗲 ➠ ๏ ᴛᴏ ʟᴇᴀᴠᴇ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ ๏\n  ๛ /leave <group/chat id>\n  ๛ /leave ➛ Type in the Group bot will auto leave that group""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_roy"),InlineKeyboardButton(text="ᴛᴏᴏʟs", callback_data="Radiux_support")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_roy_extra":
-        query.message.edit_caption(f"*✿ ᴇxᴛʀᴀ ᴄᴏᴍᴍᴀɴᴅꜱ ✿*"
-            
-             f"""
-➩ /mstart ➛ ꜱᴛᴀʀᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ ʙᴏᴛ.
 
-➩ /mhelp ➛ ɢᴇᴛ ᴄᴏᴍᴍᴀɴᴅꜱ ʜᴇʟᴘᴇʀ ᴍᴇɴᴜ ᴡɪᴛʜ ᴅᴇᴛᴀɪʟᴇᴅ ᴇxᴘʟᴀɴᴀᴛɪᴏɴꜱ ᴏғ ᴄᴏᴍᴍᴀɴᴅꜱ.
-
-➩ /ping ➛ ᴘɪɴɢ ᴛʜᴇ ʙᴏᴛ ᴀɴᴅ ᴄʜᴇᴄᴋ ʀᴀᴍ, ᴄᴘᴜ ᴇᴛᴄ ꜱᴛᴀᴛꜱ ᴏғ ʙᴏᴛ.
-
-*❅ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ ❅*
-
-➩ /settings ➛ ɢᴇᴛ a ᴄᴏᴍᴘʟᴇᴛᴇ ɢʀᴏᴜᴘ ꜱᴇᴛᴛɪɴɢꜱ ᴡɪᴛʜ ɪɴʟɪɴᴇ ʙᴜᴛᴛᴏɴꜱ
-""",
-            parse_mode=ParseMode.MARKDOWN,
-            
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text=" ʙᴀᴄᴋ ", callback_data="Music_roy"),InlineKeyboardButton(text="ʜᴏᴍᴇ", callback_data="Main_help")
-                    ]
-                ]
-            ),
-        )
-    elif query.data == "Music_back":
-        first_name = update.effective_user.first_name
-        query.message.edit_caption(PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            timeout=60,
-             )
-         
+run_async
 def get_help(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
@@ -864,13 +757,13 @@ def get_help(update: Update, context: CallbackContext):
     if chat.type != chat.PRIVATE:
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
-            update.effective_message.reply_photo(random.choice(ABHI),
-                f"➩ ᴄᴏɴᴛᴀᴄᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ɢᴇᴛ ʜᴇʟᴘ ᴏғ {module.capitalize()}",
+            update.effective_message.reply_text(
+                f"Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                text="ʜᴇʟᴘ",
+                                text="𝐇𝙴𝙻𝙿 ",
                                 url="t.me/{}?start=ghelp_{}".format(
                                     context.bot.username, module
                                 ),
@@ -880,18 +773,21 @@ def get_help(update: Update, context: CallbackContext):
                 ),
             )
             return
-        update.effective_message.reply_photo(random.choice(NYKAA),"➩ ᴡʜᴇʀᴇ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴏᴘᴇɴ ᴛʜᴇ sᴇᴛᴛɪɴɢs ᴍᴇɴᴜ?.",
+        update.effective_message.reply_text(
+            "» 𝐂𝐡𝐨𝐨𝐬𝐞 𝐀𝐧 𝐎𝐩𝐭𝐢𝐨𝐧 𝐅𝐨𝐫 𝐆𝐞𝐭𝐭𝐢𝐧𝐠 𝐇𝐞𝐥𝐩",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="ᴏᴩᴇɴ ɪɴ ᴩʀɪᴠᴀᴛᴇ",
-                            url="https://t.me/{}?start=help".format(context.bot.username),
+                            text="𝐒𝚃𝙰𝚁𝚃 𝐈𝙽 𝐏𝚁𝙸𝚅𝙰𝚃𝙴",
+                            url="https://t.me/{}?start=help".format(
+                                context.bot.username
+                            ),
                         )
                     ],
                     [
                         InlineKeyboardButton(
-                            text="ᴏᴩᴇɴ ʜᴇʀᴇ",
+                            text="𝐎𝙿𝙴𝙽 𝐇𝙴𝚁𝙴",
                             callback_data="help_back",
                         )
                     ],
@@ -912,7 +808,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="◁", callback_data="help_back"),InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ", callback_data="Radiux_support")]]
+                [[InlineKeyboardButton(text="𝐁𝙰𝙲𝙺", callback_data="help_back")]]
             ),
         )
 
@@ -961,6 +857,7 @@ def send_settings(chat_id, user_id, user=False):
             )
 
 
+run_async
 def settings_button(update: Update, context: CallbackContext):
     query = update.callback_query
     user = update.effective_user
@@ -977,7 +874,8 @@ def settings_button(update: Update, context: CallbackContext):
             text = "*{}* has the following settings for the *{}* module:\n\n".format(
                 escape_markdown(chat.title), CHAT_SETTINGS[module].__mod_name__
             ) + CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
-            query.message.reply_text(text,
+            query.message.reply_text(
+                text=text,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     [
@@ -995,8 +893,9 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = prev_match.group(1)
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text("""Hi there! There are quite a few settings for {} - go ahead and pick what "
-                you're interested in.""".format(chat.title),
+            query.message.reply_text(
+                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id
@@ -1008,9 +907,9 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = next_match.group(1)
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(text=
-                """Hi there! There are quite a few settings for {} - go ahead and pick what 
-                you're interested in.""".format(chat.title),
+            query.message.reply_text(
+                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         next_page + 1, CHAT_SETTINGS, "stngs", chat=chat_id
@@ -1021,8 +920,9 @@ def settings_button(update: Update, context: CallbackContext):
         elif back_match:
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
-            query.message.reply_text("""Hi there! There are quite a few settings for {} - go ahead and pick what 
-                you're interested in.""".format(escape_markdown(chat.title)),
+            query.message.reply_text(
+                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "you're interested in.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)
@@ -1041,6 +941,7 @@ def settings_button(update: Update, context: CallbackContext):
             LOGGER.exception("Exception in settings buttons. %s", str(query.data))
 
 
+run_async
 def get_settings(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -1049,8 +950,9 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "๏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ɢᴇᴛ ᴛʜɪs ᴄʜᴀᴛ's sᴇᴛᴛɪɴɢs ᴀs ᴡᴇʟʟ ᴀs ʏᴏᴜʀs"
-            msg.reply_photo(random.choice(ABHI),text,
+            text = "Click here to get this chat's settings, as well as yours."
+            msg.reply_text(
+                text,
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -1065,12 +967,13 @@ def get_settings(update: Update, context: CallbackContext):
                 ),
             )
         else:
-            text = "➩ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴄʜᴇᴄᴋ ʏᴏᴜʀ sᴇᴛᴛɪɴɢs"
+            text = "Click here to check your settings."
 
     else:
         send_settings(chat.id, user.id, True)
 
 
+run_async
 def donate(update: Update, context: CallbackContext):
     user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
@@ -1080,12 +983,12 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
         )
 
-        if OWNER_ID != 6652842490:
+        if OWNER_ID != {OWNER_ID} and DONATION_LINK:
             update.effective_message.reply_text(
-                f"๏ ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴩᴇʀ ᴏғ {dispatcher.bot.first_name} sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ɪs [ɢɪᴛʜᴜʙ](https://github.com/noob-mukesh/nothing?)"
-                f"\n\n๏ ʙᴜᴛ ʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ ᴅᴏɴᴀᴛᴇ ᴛᴏ ᴛʜᴇ ᴩᴇʀsᴏɴ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴜɴɴɪɴɢ ᴍᴇ : [ʜᴇʀᴇ]",
+                f"» ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴩᴇʀ ᴏғ {dispatcher.bot.first_name} sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ ɪs [VIP BOY](https://t.me/Queen_sakhi)"
+                f"\n\nʙᴜᴛ ʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ ᴅᴏɴᴀᴛᴇ ᴛᴏ ᴛʜᴇ ᴩᴇʀsᴏɴ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴜɴɴɪɴɢ ᴍᴇ : [ʜᴇʀᴇ]({DONATION_LINK})",
                 parse_mode=ParseMode.MARKDOWN,
-                
+                disable_web_page_preview=True,
             )
 
     else:
@@ -1094,15 +997,15 @@ def donate(update: Update, context: CallbackContext):
                 user.id,
                 DONATE_STRING,
                 parse_mode=ParseMode.MARKDOWN,
-                
+                disable_web_page_preview=True,
             )
 
             update.effective_message.reply_text(
-                "➩ ɪᴠᴇ ᴘᴍ'ᴇᴅ ʏᴏᴜ ᴀʙᴏᴜᴛ ᴅᴏɴᴀᴛɪɴɢ ᴛᴏ ᴍʏ ᴄʀᴇᴀᴛᴏʀ!"
+                "ɪ'ᴠᴇ ᴘᴍ'ᴇᴅ ʏᴏᴜ ᴀʙᴏᴜᴛ ᴅᴏɴᴀᴛɪɴɢ ᴛᴏ ᴍʏ ᴄʀᴇᴀᴛᴏʀ!"
             )
         except Unauthorized:
             update.effective_message.reply_text(
-                "➩ ᴄᴏɴᴛᴀᴄᴛ ᴍᴇ ɪɴ ᴘᴍ ғɪʀsᴛ ᴛᴏ ɢᴇᴛ ᴅᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ."
+                "ᴄᴏɴᴛᴀᴄᴛ ᴍᴇ ɪɴ ᴘᴍ ғɪʀsᴛ ᴛᴏ ɢᴇᴛ ᴅᴏɴᴀᴛɪᴏɴ ɪɴғᴏʀᴍᴀᴛɪᴏɴ."
             )
 
 
@@ -1126,32 +1029,22 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
-    global x
-    x=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ",
-                            url="https://t.me/Iconic_Robot?startgroup=true"
-                            )
-                       ]
-                ]
-                     )
+
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.send_photo(
+           dispatcher.bot.send_photo(
                 f"@{SUPPORT_CHAT}",
                 photo=f"{START_IMG}",
                 caption=f"""
-✦ㅤ{BOT_NAME} ɪs ᴀʟɪᴠᴇ ʙᴀʙʏ ✦
-     ━━━━━━━━ 🝮✿🝮 ━━━━━━━━
-**❅ ᴍᴀᴅᴇ ʙʏ ➛ [ʀᴏʏ-ᴇᴅɪᴛx](https://t.me/the_radiux_network)**
-**❅ ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ➛** `{y()}`
-**❅ ʟɪʙʀᴀʀʏ ᴠᴇʀsɪᴏɴ ➛** `{telever}`
-**❅ ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ➛** `{tlhver}`
-**❅ ᴩʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ ➛** `{pyrover}`
-     ━━━━━━━━ 🝮✿🝮 ━━━━━━━━
-""",reply_markup=x,
+✿ {BOT_NAME} ɪs ᴀʟɪᴠᴇ ʙᴀʙʏ 
+     ━━━━━━━𒈒✿𒈒━━━━━━━
+**ᰔᩚ ᴍᴀᴅᴇ ʙʏ ➵ ʀᴀᴅɪᴜx**
+**ᰔᩚ ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ➵** `{y()}`
+**ᰔᩚ ʟɪʙʀᴀʀʏ ᴠᴇʀsɪᴏɴ ➵** `{telever}`
+**ᰔᩚ ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ➵** `{tlhver}`
+**ᰔᩚ ᴩʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ ➵** `{pyrover}`
+     ━━━━━━━𒈒✿𒈒━━━━━━━
+""",
                 parse_mode=ParseMode.MARKDOWN,
             )
         except Unauthorized:
@@ -1160,44 +1053,41 @@ def main():
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
-    start_handler = CommandHandler("start", start, run_async=True)
 
-    help_handler = CommandHandler("help", get_help, run_async=True)
-    help_callback_handler = CallbackQueryHandler(
-        help_button, pattern=r"help_.*", run_async=True
-    )
+    CommandHandler("test", test)
+    start_handler = CommandHandler("start", start)
 
-    settings_handler = CommandHandler("settings", get_settings, run_async=True)
-    settings_callback_handler = CallbackQueryHandler(
-        settings_button, pattern=r"stngs_", run_async=True
-    )
+    help_handler = CommandHandler("help", get_help)
+    help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
+
+    settings_handler = CommandHandler("settings", get_settings)
+    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
     about_callback_handler = CallbackQueryHandler(
-        Radiux_about_callback, pattern=r"Radiux_", run_async=True
+        Iconic_about_callback, pattern=r"Radiux_"
     )
-    source_callback_handler = CallbackQueryHandler(
-        Source_about_callback, pattern=r"source_", run_async=True
+    Music_callback_handler = CallbackQueryHandler(
+        Music_about_callback, pattern=r"Music_"
     )
-    music_callback_handler = CallbackQueryHandler(
-        Music_about_callback, pattern=r"Music_",run_async=True
-    )
-    RadiuxManager_main_handler = CallbackQueryHandler(
-        RadiuxManager_Main_Callback, pattern=r".*_help",run_async=True)
+
     donate_handler = CommandHandler("donate", donate)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
+
+    # dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
+    
     dispatcher.add_handler(about_callback_handler)
-    dispatcher.add_handler(music_callback_handler)
+    dispatcher.add_handler(Music_callback_handler)
     dispatcher.add_handler(settings_handler)
     dispatcher.add_handler(help_callback_handler)
     dispatcher.add_handler(settings_callback_handler)
     dispatcher.add_handler(migrate_handler)
     dispatcher.add_handler(donate_handler)
-    dispatcher.add_handler(RadiuxManager_main_handler)
+
     dispatcher.add_error_handler(error_callback)
-    dispatcher.add_handler(source_callback_handler)
-    LOGGER.info("Using long polling.")
+
+    LOGGER.info("🌱 𝐁𝐎𝐓 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘 🌱\n\n╔═════ᥫᩣ۩ღ۩ᥫᩣ════╗\n\n➟ ๏ 𝐈𝐂𝐎𝐍𝐈𝐂 💕\n\n╚═════ᥫᩣ۩ღ۩ᥫᩣ════╝")
     updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
@@ -1213,4 +1103,3 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
-        
