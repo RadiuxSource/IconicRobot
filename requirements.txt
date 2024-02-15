@@ -61,7 +61,7 @@ pyfiglet
 git+https://github.com/Awesome-RJ/GoGoAnimeAPI.git
 unidecode
 openai==1.10.0
-numpy==1.26.3
+numpy==1.26.4
 pycountry
 blackpink 
 qrcode
