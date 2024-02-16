@@ -1,7 +1,7 @@
 from math import ceil
 from typing import Dict, List
 from uuid import uuid4
-
+from functools import wraps
 from telegram import (
     MAX_MESSAGE_LENGTH,
     Bot,
@@ -12,6 +12,7 @@ from telegram import (
     ParseMode,
 )
 from telegram.error import TelegramError
+from telegram.update import Update  # Added import for Update
 
 from RadiuxManager import NO_LOAD
 
@@ -46,7 +47,7 @@ def split_message(msg: str) -> List[str]:
 
     return result
 
-def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
+
 def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
         modules = sorted(
@@ -81,7 +82,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
 
     # Adjust navigation buttons for 7 column layout
     if len(pairs) > 7:
-            pairs = pairs[modulo_page * 7: 7 * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * 7: 7 * (modulo_page + 1)] + [
             (
                 EqInlineKeyboardButton(
                     "☚", callback_data="{}_prev({})".format(prefix, modulo_page)
@@ -99,7 +100,6 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
         pairs += [[EqInlineKeyboardButton("𝐁𝙰𝙲𝙺", callback_data="Radiux_back")]]
 
     return pairs
-
 
 
 def article(
