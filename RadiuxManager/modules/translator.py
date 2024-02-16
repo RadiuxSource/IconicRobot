@@ -3,7 +3,6 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 from RadiuxManager import pbot as app
 from RadiuxManager import dispatcher
-from pyrogram.types import *
 from RadiuxManager.modules.disable import DisableAbleCommandHandler
 from pyrogram.types import InputMediaVideo
 import random
@@ -16,14 +15,14 @@ def totranslate(update: Update, context: CallbackContext) -> None:
     if not reply_msg:
         message.reply_text(
             "➩ ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇs ᴏʀ ᴡʀɪᴛᴇ ᴍᴇssᴀɢᴇs ғʀᴏᴍ ᴏᴛʜᴇʀ ʟᴀɴɢᴜᴀɢᴇs ғᴏʀ ᴛʀᴀɴsʟᴀᴛɪɴɢ ɪɴᴛᴏ ᴛʜᴇ ɪɴᴛᴇɴᴅᴇᴅ ʟᴀɴɢᴜᴀɢᴇ\n\n"
-            "➩ ᴇxᴀᴍᴘʟᴇ ➛ `/tr ᴇɴ-ʜɪ` ᴛᴏ ᴛʀᴀɴsʟᴀᴛᴇ ғʀᴏᴍ ᴇɴɢʟɪsʜ ᴛᴏ ʜɪɴᴅɪ\n"
-            "➩ ᴜsᴇ ➛ `/tr en` ғᴏʀ ᴀᴜᴛᴏᴍᴀᴛɪᴄ ᴅᴇᴛᴇᴄᴛɪᴏɴ ᴀɴᴅ ᴛʀᴀɴsʟᴀᴛɪɴɢ ɪᴛ ɪɴᴛᴏ ᴇɴɢʟɪsʜ.",
+            "➩ ᴇxᴀᴍᴘʟᴇ ➵ `/tr ᴇɴ-ʜɪ` ᴛᴏ ᴛʀᴀɴsʟᴀᴛᴇ ғʀᴏᴍ ᴇɴɢʟɪsʜ ᴛᴏ ʜɪɴᴅɪ\n"
+            "➩ ᴜsᴇ ➵ `/tr en` ғᴏʀ ᴀᴜᴛᴏᴍᴀᴛɪᴄ ᴅᴇᴛᴇᴄᴛɪᴏɴ ᴀɴᴅ ᴛʀᴀɴsʟᴀᴛɪɴɢ ɪᴛ ɪɴᴛᴏ ᴇɴɢʟɪsʜ.",
             parse_mode="markdown",
             disable_web_page_preview=True,
         )
         return
-    if reply_msg.caption:
-        to_translate = reply_msg.caption
+    if reply_msg.text:
+        to_translate = reply_msg.text
     elif reply_msg.text:
         to_translate = reply_msg.text
     try:
@@ -47,13 +46,13 @@ def totranslate(update: Update, context: CallbackContext) -> None:
 
 
 __help__ = """
- ➩ /tr  /tl (ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇ) ➛ ᴀs ʀᴇᴘʟʏ ᴛᴏ ᴀ ʟᴏɴɢ ᴍᴇssᴀɢᴇ
+ ➩ /tr  /tl (ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇ) ➵ ᴀs ʀᴇᴘʟʏ ᴛᴏ ᴀ ʟᴏɴɢ ᴍᴇssᴀɢᴇ
 
- ➩ /tr en* ➛* ᴛʀᴀɴsʟᴀᴛᴇs sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴇɴɢʟɪsʜ
+ ➩ /tr en* ➵* ᴛʀᴀɴsʟᴀᴛᴇs sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴇɴɢʟɪsʜ
  
- ➩ /tr hi-en* ➛* ᴛʀᴀɴsʟᴀᴛᴇs ʜɪɴᴅɪ ᴛᴏ ᴇɴɢʟɪsʜ
+ ➩ /tr hi-en* ➵* ᴛʀᴀɴsʟᴀᴛᴇs ʜɪɴᴅɪ ᴛᴏ ᴇɴɢʟɪsʜ
 
-✿ *ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇs* ✿
+♡゙ *ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇs* ♡゙
 
 ➩ `af,am,ar,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,de,el,en,eo,es,
 et,eu,fa,fi,fr,fy,ga,gd,gl,gu,ha,haw,hi,hmn,hr,ht,hu,hy,
@@ -61,6 +60,8 @@ id,ig,is,it,iw,ja,jw,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,
 ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,sd,si,sk,sl,
 sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tl,tr,uk,ur,uz,
 vi,xh,yi,yo,zh,zh_CN,zh_TW,zu`
+
+**[𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot)**
 """
 __mod_name__ = "ᴛʀᴀɴs"
 
@@ -105,23 +106,12 @@ async def repo(client, message):
         ),
     )
 
-
 @app.on_callback_query(filters.regex("gib_source"))
 async def gib_repo_callback(_, callback_query):
-    await callback_query.edit_message_media(
-        media=InputMediaVideo("https://graph.org//file/bb6523b137a8058d8ac3a.jpg", has_spoiler=True),
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [close_button]
-            ]
-        ),
-        )
-close_button = InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="Radiux_back")
-
-app.on_callback_query(filters.regex("gib_source"))
-async def gib_repo_callback(_, callback_query):
-    await callback_query.edit_message_media(
-        media=InputMediaPhoto("https://graph.org//file/bb6523b137a8058d8ac3a.jpg"),
+    await callback_query.edit_message_text(
+        text ="""100 rupye ka redeem code de aur mujhse source code le le 🗿
+         ©️ @The_RealRadiux 
+        """,
         reply_markup=InlineKeyboardMarkup(
             [
                 [close_button]
@@ -129,11 +119,3 @@ async def gib_repo_callback(_, callback_query):
         ),
     )
 close_button = InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="Radiux_back")
-
-@app.on_callback_query(filters.regex("close"))
-async def close_menu(_, CallbackQuery):
-    try:
-        await CallbackQuery.message.delete()
-        await CallbackQuery.answer()
-    except:
-        return
