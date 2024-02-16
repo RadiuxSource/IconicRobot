@@ -72,7 +72,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
         )
 
     # Adjusting for 7 columns instead of 5
-    pairs = [modules[i * 4 : (i + 1) * 4] for i in range((len(modules) + 7 - 1) // 7)]
+    pairs = [modules[i * 3 : (i + 1) * 3] for i in range((len(modules) + 7 - 1) // 7)]
 
     max_num_pages = ceil(len(pairs) / 7)  # Retaining only 4 rows
     modulo_page = page_n % max_num_pages
