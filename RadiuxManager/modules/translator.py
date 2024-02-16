@@ -109,14 +109,26 @@ async def repo(client, message):
 @app.on_callback_query(filters.regex("gib_source"))
 async def gib_repo_callback(_, callback_query):
     await callback_query.edit_message_media(
-        media=InputMediaVideo("https://telegra.ph/file/9235d57807362b4e227a3.mp4", has_spoiler=True),
+        media=InputMediaVideo("https://graph.org//file/bb6523b137a8058d8ac3a.jpg", has_spoiler=True),
         reply_markup=InlineKeyboardMarkup(
             [
                 [close_button]
             ]
         ),
         )
-close_button = InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close")
+close_button = InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="Radiux_back")
+
+app.on_callback_query(filters.regex("gib_source"))
+async def gib_repo_callback(_, callback_query):
+    await callback_query.edit_message_media(
+        media=InputMediaPhoto("https://graph.org//file/bb6523b137a8058d8ac3a.jpg"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [close_button]
+            ]
+        ),
+    )
+close_button = InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="Radiux_back")
 
 @app.on_callback_query(filters.regex("close"))
 async def close_menu(_, CallbackQuery):
@@ -125,4 +137,3 @@ async def close_menu(_, CallbackQuery):
         await CallbackQuery.answer()
     except:
         return
-        
