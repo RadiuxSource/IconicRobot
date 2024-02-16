@@ -72,14 +72,14 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
         )
 
     # Adjusting for 7 columns instead of 5
-    pairs = [modules[i * 7 : (i + 1) * 7] for i in range((len(modules) + 7 - 1) // 7)]
+    pairs = [modules[i * 4 : (i + 1) * 4] for i in range((len(modules) + 7 - 1) // 7)]
 
-    max_num_pages = ceil(len(pairs) / 4)  # Retaining only 4 rows
+    max_num_pages = ceil(len(pairs) / 7)  # Retaining only 4 rows
     modulo_page = page_n % max_num_pages
 
     # Adjust navigation buttons for 7 column layout and 4 rows
-    if len(pairs) > 4:
-        pairs = pairs[modulo_page * 4: 4 * (modulo_page + 1)] + [
+    if len(pairs) > 7:
+        pairs = pairs[modulo_page * 7: 7 * (modulo_page + 1)] + [
             (
                 EqInlineKeyboardButton(
                     "☚", callback_data="{}_prev({})".format(prefix, modulo_page)
@@ -95,7 +95,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
 
     else:
         # Fill the remaining row with a back button if there are less than 4 rows
-        while len(pairs) < 4:
+        while len(pairs) < 7:
             pairs.append([EqInlineKeyboardButton("𝐁𝙰𝙲𝙺", callback_data="Radiux_back")])
 
     return pairs
