@@ -49,6 +49,8 @@ def split_message(msg: str) -> List[str]:
 
 def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
+     def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
+    if not chat:
         modules = sorted(
             [
                 EqInlineKeyboardButton(
@@ -96,9 +98,12 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
         ]
 
     else:
-        pairs += [[EqInlineKeyboardButton("𝐁𝙰𝙲𝙺", callback_data="Radiux_back")]]
+        # Fill the remaining row with a back button if there are less than 4 rows
+        while len(pairs) < 4:
+            pairs.append([EqInlineKeyboardButton("𝐁𝙰𝙲𝙺", callback_data="Radiux_back")])
 
     return pairs
+
 
 
 
