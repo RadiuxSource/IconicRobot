@@ -16,7 +16,6 @@ from telegram.update import Update  # Added import for Update
 
 from RadiuxManager import NO_LOAD
 
-
 class EqInlineKeyboardButton(InlineKeyboardButton):
     def __eq__(self, other):
         return self.text == other.text
@@ -26,7 +25,6 @@ class EqInlineKeyboardButton(InlineKeyboardButton):
 
     def __gt__(self, other):
         return self.text > other.text
-
 
 def split_message(msg: str) -> List[str]:
     if len(msg) < MAX_MESSAGE_LENGTH:
@@ -48,8 +46,6 @@ def split_message(msg: str) -> List[str]:
     return result
 
 def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
-    if not chat:
-     def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
         modules = sorted(
             [
@@ -104,9 +100,6 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
 
     return pairs
 
-
-
-
 def article(
     title: str = "",
     description: str = "",
@@ -128,7 +121,6 @@ def article(
         reply_markup=reply_markup,
     )
 
-
 def send_to_list(
     bot: Bot, send_to: list, message: str, markdown=False, html=False
 ) -> None:
@@ -145,7 +137,6 @@ def send_to_list(
         except TelegramError:
             pass  # ignore users who fail
 
-
 def build_keyboard(buttons):
     keyb = []
     for btn in buttons:
@@ -156,7 +147,6 @@ def build_keyboard(buttons):
 
     return keyb
 
-
 def revert_buttons(buttons):
     res = ""
     for btn in buttons:
@@ -166,7 +156,6 @@ def revert_buttons(buttons):
             res += "\n[{}](buttonurl://{})".format(btn.name, btn.url)
 
     return res
-
 
 def build_keyboard_parser(bot, chat_id, buttons):
     keyb = []
@@ -180,7 +169,6 @@ def build_keyboard_parser(bot, chat_id, buttons):
 
     return keyb
 
-
 def user_bot_owner(func):
     @wraps(func)
     def is_user_bot_owner(bot: Bot, update: Update, *args, **kwargs):
@@ -192,7 +180,6 @@ def user_bot_owner(func):
 
     return is_user_bot_owner
 
-
 def build_keyboard_alternate(buttons):
     keyb = []
     for btn in buttons:
@@ -202,7 +189,6 @@ def build_keyboard_alternate(buttons):
             keyb.append([InlineKeyboardButton(btn[0], url=btn[1])])
 
     return keyb
-
 
 def is_module_loaded(name):
     return name not in NO_LOAD
