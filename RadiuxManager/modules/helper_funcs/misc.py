@@ -48,7 +48,7 @@ def split_message(msg: str) -> List[str]:
 
 
 def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
-    idef paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
+    def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
         modules = sorted(
             [
