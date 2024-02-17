@@ -32,7 +32,7 @@ from pyrogram import filters
 
 async def love_shayri(b,m):
     "dont remove this line \n credit  |n github : noob-mukesh"
-    love = requests.get("https://Radiux-api.vercel.app/loveshayri").json()["results"]    
+    love = requests.get("https://mukesh-api.vercel.app/loveshayri").json()["results"]    
     await m.reply_text(love)
           
 @pbot.on_message(filters.command("hateshayri"))
@@ -40,4 +40,4 @@ async def hate_shayri(b,m):
     "dont remove this line \n credit  |n github : noob-mukesh"
     hate= requests.get("https://Radiux-api.vercel.app/hateshayri").json()["results"]    
     await m.reply_text(hate)          
-__mod_name__="sʜᴀʏʀɪ"
+__mod_name__="𝐒𝙷𝙰𝚈𝙰𝚁𝙸"
