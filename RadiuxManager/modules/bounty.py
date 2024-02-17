@@ -70,7 +70,7 @@ async def on_bounty(client: Client, message: Message) -> Message:
     await status_msg.delete()
 
 
-__mod_name__ = "ʙᴏᴜɴᴛʏ"
+__mod_name__ = "𝐁𝙾𝚄𝙽𝚃𝚈"
 __help__ = """
  ➩ /wanted ➛ ʀᴇᴘʟᴀʏ ᴀ ᴘʜᴏᴛᴏ.
  ➩ /bounty ➛ ʀᴇᴘʟᴀʏ ᴀ ᴘʜᴏᴛᴏ.
