@@ -156,7 +156,7 @@ dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)
 dispatcher.add_handler(BLUSERS_HANDLER)
 
-__mod_name__ = "ʙ-ᴜsᴇʀ"
+__mod_name__ = "𝐁-𝐔𝚂𝙴𝚁𝚂"
 __help__ = """
  ➩ /ignore ➛ ʙʟᴀᴄᴋʟɪsᴛ ᴛʜᴇ ᴜsᴇʀ.
  ➩ /notice ➛ sᴇᴇ ᴛʜᴇ ɴᴏᴛɪᴄᴇ.
