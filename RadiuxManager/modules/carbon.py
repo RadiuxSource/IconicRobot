@@ -29,7 +29,7 @@ async def carbon_func(_, message):
     await m.delete()
     carbon.close()
 
-__mod_name__ = "ᴄᴀʀʙᴏɴ"
+__mod_name__ = "𝐂𝙰𝚁𝙱𝙾𝙽"
 
 __help__ = """
 ➩ ᴍᴀᴋᴇs ᴀ ᴄᴀʀʙᴏɴ ᴏғ ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ ᴀɴᴅ sᴇɴᴅ ɪᴛ ᴛᴏ ʏᴏᴜ.
