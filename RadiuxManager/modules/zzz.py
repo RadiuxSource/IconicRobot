@@ -122,7 +122,7 @@ async def greet_group(_, member: ChatMemberUpdated):
 ๏ ɴᴀᴍᴇ ➠ {user.mention}
 ๏ ɪᴅ ➠ {user.id}
 ๏ ᴜsᴇʀɴᴀᴍᴇ ➠ @{user.username}
-๏ ᴍᴀᴅᴇ ʙʏ ➠ [ʀᴏʏ-ᴇᴅɪᴛx](https://t.me/the_radiux_network)**
+๏ ᴍᴀᴅᴇ ʙʏ ➠ [𝐑𝙰𝙳𝙸𝚄𝚇](https://t.me/the_radiux_network)**
 """,
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton (f"ᴠɪᴇᴡ ᴜsᴇʀ", url=f"https://t.me/{user.username}")]])
 
