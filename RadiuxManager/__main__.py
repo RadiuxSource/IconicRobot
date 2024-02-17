@@ -434,7 +434,7 @@ def Music_about_callback(update: Update, context: CallbackContext):
     if query.data == "Music_":
         query.message.edit_text(
             text=f"""
- *♥ **𝐇𝙴𝚈 𝐁𝙰𝙱𝚈** ♥
+ ♥ **𝐇𝙴𝚈 𝐁𝙰𝙱𝚈** ♥
 
 ❣️ *𝐖𝙴𝙻𝙲𝙾𝙼𝙴 𝐓𝙾 {dispatcher.bot.first_name}* ❣️
 
