@@ -83,7 +83,7 @@ async def reply_raid_listener(client, message):
         text = choice(RRAID_MESSAGES)
         await message.reply_text(text)
 
-__mod_name__ = "Raid"
+__mod_name__ = "𝐑𝙰𝙸𝙳"
 
 __help__ = """
 ➩ Send random messages from predefined lists multiple times in the chat, tagging a specific user.
