@@ -86,4 +86,4 @@ async def love_shayri(b,m):
     "dont remove this line \n credit  |n github : noob-mukesh"
     love = random.choice(loveShayri)      
     await m.reply_text(love)
-__mod_name__="ǫᴜᴏᴛᴇs"
+__mod_name__="𝐐𝚄𝙾𝚃𝙴𝚂"
