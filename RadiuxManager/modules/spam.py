@@ -1,6 +1,7 @@
 import asyncio
-from pyrogram import filters
+from pyrogram import Client, filters
 
+# Assuming RadiuxManager and capture_err are correctly defined elsewhere
 from RadiuxManager import pbot
 from RadiuxManager.utils.errors import capture_err
 
@@ -9,7 +10,7 @@ SUDO_USERS = [6393380026, 5265109324]
 @pbot.on_message(filters.command("spam"))
 @capture_err
 async def spam_func(_, message):
-    if message.from_user.id in SUDO_USERS:  # Assuming SUDO_USERS is defined
+    if message.from_user.id in SUDO_USERS:
         args = message.text.split()[1:]
         
         if len(args) < 2:
@@ -27,6 +28,7 @@ async def spam_func(_, message):
             return
         
         text = " ".join(args[1:])
+        await message.reply_text("➩ Spamming initiated...")
         
         for _ in range(count):
             await message.reply_text(text)
