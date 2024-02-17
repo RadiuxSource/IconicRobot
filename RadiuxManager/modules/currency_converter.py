@@ -63,4 +63,4 @@ __command_list__ = ["cash"]
 
 __handlers__ = [CONVERTER_HANDLER]
 
-__mod_name__ = "ᴄᴀsʜ"
+__mod_name__ = "𝐂𝙰𝚂𝙷"
