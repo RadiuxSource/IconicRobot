@@ -57,7 +57,7 @@ def schedule(_, message):
     message.reply_text(f"**✦ ᴛᴏᴅᴀʏ's sᴄʜᴇᴅᴜʟᴇ ✦**\n\n✦ ᴛɪᴍᴇ-ᴢᴏɴᴇ ➛ ᴛᴏᴋʏᴏ (ɢᴍᴛ +9)\n\n๏ {text}")
 
 
-__mod_name__ = "sᴄʜᴇᴅᴜʟᴇ"
+__mod_name__ = "𝐒𝙲𝙷𝙴𝙳𝚄𝙻𝙴"
 
 __help__ = """
  ➩ `/latest`➛ ᴛᴏ sᴇᴇ ʟᴀᴛᴇsᴛ ᴀɴɪᴍᴇ ᴇᴘɪsᴏᴅᴇ
