@@ -44,7 +44,7 @@ async def upscale_image(client, message):
             await client.send_document(
                 message.chat.id,
                 document=upscaled_file_path,
-                caption=f"✦ **ɢᴇɴᴇʀᴀᴛᴇᴅ ʙʏ ➛** [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/Iconic_Robot)\n\n✦ **ᴄʀᴇᴅɪᴛs** ➛ [ʀᴏʏ-ᴇᴅɪᴛx](https://t.me/the_radiux_network)",
+                caption=f"✦ **ɢᴇɴᴇʀᴀᴛᴇᴅ ʙʏ ➛** [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/Iconic_Robot)\n\n✦ **ᴄʀᴇᴅɪᴛs** ➛ [𝐑𝙰𝙳𝙸𝚄𝚇](https://t.me/the_radiux_network)",
             )
         else:
             await message.reply_text("✦ ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.")
