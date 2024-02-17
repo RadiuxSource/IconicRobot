@@ -141,7 +141,7 @@ async def greet_group(_, member: ChatMemberUpdated):
         return 
 
 
-__mod_name__ = "ᴢ-ᴡᴇʟᴄᴏᴍᴇ"
+__mod_name__ = "𝐙-𝐖𝙴𝙻𝙲𝙾𝙼𝙴"
 __help__ = """
  ❍ ᴛʜɪs ɪs sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ғᴇᴀᴛᴜʀᴇs.
 
