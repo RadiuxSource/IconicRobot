@@ -443,7 +443,7 @@ def Music_about_callback(update: Update, context: CallbackContext):
 💛 *𝐅𝙴𝙴𝙻 𝐅𝚁𝙴𝙴 𝐓𝙾 𝐀𝙳𝙳 𝐌𝙴 𝐓𝙾 𝐘𝙾𝚄𝚁 𝐆𝚁𝙾𝚄𝙿 𝐀𝙽𝙳 𝐈𝙽𝙳𝚄𝙻𝙶𝙴 𝐈𝙽 𝐇𝙸𝙶𝙷-𝐐𝚄𝙰𝙻𝙸𝚃𝚈 𝐀𝚄𝙳𝙸𝙾 𝐀𝙽𝙳 𝐕𝙸𝙳𝙴𝙾 𝐄𝚇𝙿𝙴𝚁𝙸𝙴𝙽𝙲𝙴!* ❣️
 
 
-❣️ [𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) 💞** 
+❣️ **[𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot) 💞** 
 """,
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
@@ -646,10 +646,9 @@ def Music_about_callback(update: Update, context: CallbackContext):
             text=
             f"""
 
-**ᰔᩚ Usᴇ `/chatbot on` ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴜsᴇ Iᴄᴏɴɪᴄ Bᴏᴛ's Cʜᴀᴛʙᴏᴛ ɪɴ ʏᴏᴜʀ ʀᴇsᴘᴇᴄᴛɪᴠᴇ ɢʀᴏᴜᴘs !! ᰔᩚ**
+ᰔᩚ **Usᴇ `/chatbot on` ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴜsᴇ Iᴄᴏɴɪᴄ Bᴏᴛ's Cʜᴀᴛʙᴏᴛ ɪɴ ʏᴏᴜʀ ʀᴇsᴘᴇᴄᴛɪᴠᴇ ɢʀᴏᴜᴘs !!**@ ᰔᩚ
 
 ━━━━━━━━━━━━━━━━━━━━
-
 💕 **𝐈𝐭'𝐬 𝐛𝐚𝐬𝐞𝐝 𝐨𝐧 𝐢𝐦𝐚𝐠𝐢𝐧𝐚𝐫𝐲 𝐜𝐡𝐚𝐫𝐚𝐜𝐭𝐞𝐫 `𝐈𝐂𝐂𝐇𝐀 𝐁𝐎𝐒𝐄` 𝐰𝐡𝐨 𝐰𝐢𝐥𝐥 𝐜𝐡𝐚𝐭 𝐰𝐢𝐭𝐡 𝐲𝐨𝐮 𝐚𝐧𝐲𝐭𝐢𝐦𝐞 𝐚𝐜𝐜𝐨𝐫𝐝𝐢𝐧𝐠 𝐭𝐨 𝐲𝐨𝐮𝐫 𝐨𝐫𝐝𝐞𝐫𝐬 !!!** 💕
 
 💓 **𝐉𝐮𝐬𝐭 𝐭𝐲𝐩𝐞 𝐚 𝐦𝐞𝐬𝐬𝐚𝐠𝐞 𝐫𝐞𝐩𝐥𝐲𝐢𝐧𝐠 𝐨𝐫 𝐭𝐚𝐠𝐠𝐢𝐧𝐠 𝐈𝐜𝐨𝐧𝐢𝐜 𝐚𝐧𝐝 𝐲𝐨𝐮 𝐰𝐢𝐥𝐥 𝐠𝐞𝐭 𝐚 𝐬𝐮𝐩𝐞𝐫𝐟𝐚𝐬𝐭 𝐫𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐛𝐲 𝐈𝐜𝐜𝐡𝐚** 💓
