@@ -87,7 +87,7 @@ dispatcher.add_handler(LEAVE_HANDLER)
 dispatcher.add_handler(GITPULL_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
 
-__mod_name__ = "ᴏᴡɴᴇʀ"
+__mod_name__ = "𝐎𝚆𝙽𝙴𝚁"
 __help__ = """
 ➩ /leave ➛ ʟᴇᴀᴠᴇ ᴛʜᴇ ᴄʜᴀᴛ.
 ➩ /gitpull ➛ ɢɪᴛғᴜʟʟ ᴛʜᴇ ʙᴏᴛ.
