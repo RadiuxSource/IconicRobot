@@ -49,7 +49,7 @@ async def chat_gpt(event):
         await event.reply("➩ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ǫᴜᴇsᴛɪᴏɴ after /ask ᴄᴏᴍᴍᴀɴᴅ.\n\n➩ ғᴏʀ ᴇxᴀᴍᴘʟᴇ ➛ /ask ᴡʜᴀᴛ ɪs ᴛʜᴇ ᴍᴇᴀɴɪɴɢ ᴏғ ʟɪғᴇ ?")
 
 
-__mod_name__ = "ᴄʜᴀᴛ-ᴀɪ"
+__mod_name__ = "𝐂𝙷𝙰𝚃-𝐆𝙿𝚃"
 __help__ = """
  ➩ /ask  *➛* ʀᴇᴘʟʏ ᴛo ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ 💭
  ➩ /gpt *➛* ʀᴇᴘʟʏ ᴛo ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ 🌴
