@@ -48,14 +48,14 @@ async def github(_, message):
 ๏ ғᴏʟʟᴏᴡᴇʀs ➠ {followers}
 ๏ ғᴏʟʟᴏᴡɪɴɢ ➠ {following}
 
-๏ ᴍᴀᴅᴇ ʙʏ ➠ [ʀᴏʏ-ᴇᴅɪᴛx](https://t.me/the_radiux_network)"""
+๏ ᴍᴀᴅᴇ ʙʏ ➠ [𝐑𝙰𝙳𝙸𝚄𝚇](https://t.me/the_radiux_network)"""
             except Exception as e:
                 await message.reply(f"#ERROR {e}")
                   
     await message.reply_photo(photo=avatar_url, caption=caption,reply_markup=InlineKeyboardMarkup(Radiux))
 
 
-__mod_name__ = "ɢɪᴛʜᴜʙ"
+__mod_name__ = "𝐆𝙸𝚃𝙷𝚄𝙱"
 
 __help__ = """
  ➩ ᴘʀᴏᴠɪᴅᴇs ʏᴏᴜ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴀ ɢɪᴛʜᴜʙ ᴘʀᴏғɪʟᴇ. 
