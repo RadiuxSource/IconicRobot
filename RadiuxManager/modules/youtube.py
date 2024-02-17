@@ -42,5 +42,5 @@ async def search_and_send_youtube_video(event):
         # Edit the "Please wait" message with the error response
         await processing_message.edit(error_message)
 
-mod_name = "ʏᴛ-ᴅʟ"
+mod_name = "𝐘𝙾𝚄𝚃𝚄𝙱𝙴"
 
