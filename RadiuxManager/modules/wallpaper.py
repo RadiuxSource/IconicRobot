@@ -8,7 +8,7 @@ from RadiuxManager import pbot
 
 @pbot.on_message(filters.command(["wall", "wallpaper"]))
 async def wall(_, message: Message):
-    "➩ ғɪxᴇᴅ ᴡᴀʟʟ ʙʏ ʀᴏʏ-ᴇᴅɪᴛx"
+    "➩ ғɪxᴇᴅ ᴡᴀʟʟ ʙʏ 𝐑𝙰𝙳𝙸𝚄𝚇"
     try:
         text = message.text.split(None, 1)[1]
     except IndexError:
@@ -34,7 +34,7 @@ async def wall(_, message: Message):
             f"➩ `ᴡᴀʟʟᴘᴀᴘᴇʀ ɴᴏᴛ ғᴏᴜɴᴅ ғᴏʀ ➛ `{text}`",
         )
 
-__mod_name__ = "ᴡᴀʟʟ"
+__mod_name__ = "𝐖𝙰𝙻𝙻"
 __help__ = """
  ➩ /ᴡᴀʟʟᴘᴀᴘᴇʀ ➛ ʀᴀɴᴅᴏᴍ ᴡᴀʟʟᴘᴀᴘᴇʀ ɪᴍᴀɢᴇs.
  """
