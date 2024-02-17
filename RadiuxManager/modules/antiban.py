@@ -53,7 +53,7 @@ async def channel_handler(client: Client, update: Update, _, chats: dict):
             print(e)
             break
             
-__mod_name__ = "ᴀɴᴛɪ-ʙᴀɴ"
+__mod_name__ = "𝐀𝙽𝚃𝙸-𝐁𝙰𝙽"
 __help__ = """
  ➩ /antiban  ➛ ᴀɴᴛɪ ʙᴀɴ ᴄʜᴀɴɴᴇʟ ғᴏʀᴡᴀʀᴅ [ᴏɴ/ᴏғғ]
  """
