@@ -89,7 +89,7 @@ async def base_de(bot, message):
     except Exception as e:
         await message.reply_text(f"**➩ ᴇʀʀᴏʀ ➛ {e} ")                                
 
-__mod_name__ = "ᴄᴏᴅᴇ"
+__mod_name__ = "𝐄𝙽𝙲𝙾𝙳𝙴"
 __help__ = """
  ➩ /encode* ➛* ᴇɴᴄᴏᴅᴇ ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ
  ➩ /decode* ➛* ᴅᴇᴄᴏᴅᴇ ᴘʀᴇᴠɪᴏᴜsʟʏ ᴇᴄʀʏᴘᴛᴇᴅ ᴛᴇxᴛ
