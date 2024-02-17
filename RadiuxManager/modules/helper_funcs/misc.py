@@ -75,7 +75,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
 
     # Define the number of columns and rows
     columns = 3
-    rows = 4
+    rows = 7
 
     # Split modules into groups of 12 buttons (4 rows * 3 columns)
     pairs = [modules[i * columns:(i + 1) * columns] for i in range((len(modules) + columns - 1) // columns)]
