@@ -12,6 +12,10 @@ from RadiuxManager.database.wel_db import *
 
 COMMAND_HANDLER = ". /".split() # COMMAND HANDLER
 
+downloads_dir = "downloads"
+if not os.path.exists(downloads_dir):
+    os.makedirs(downloads_dir)
+
 LOGGER = getLogger(__name__)
 
 class temp:
@@ -43,9 +47,10 @@ def welcomepic(pic, user, chat, id, uname):
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('RadiuxManager/resources/SwanseaBold-D0ox.ttf', size=40)
     welcome_font = ImageFont.truetype('RadiuxManager/resources/SwanseaBold-D0ox.ttf', size=60)
-    draw.text((30, 300), f'NAME : {unidecode(user)}', fill=(255, 255, 255), font=font)
-    draw.text((30, 370), f'ID : {id}', fill=(255, 255, 255), font=font)
-    draw.text((30,430), f"USERNAME : {uname}", fill=(255,255,255),font=font)
+    draw.text((30, 300), f'NAME ~ {unidecode(user)}', fill=(255, 255, 255), font=font)
+    draw.text((30, 370), f'ID ~ {id}', fill=(255, 255, 255), font=font)
+    draw.text((30,440), f"USERNAME ~ {uname}", fill=(255,255,255),font=font)
+    draw.text((30,510), f'@Iconic_Robot', fill=(255,255,255), font=font)
     pfp_position = (770, 140)  
     background.paste(pfp, pfp_position, pfp)  
     background.save(
@@ -122,7 +127,7 @@ async def greet_group(_, member: ChatMemberUpdated):
 ๏ ɴᴀᴍᴇ ➠ {user.mention}
 ๏ ɪᴅ ➠ {user.id}
 ๏ ᴜsᴇʀɴᴀᴍᴇ ➠ @{user.username}
-๏ ᴍᴀᴅᴇ ʙʏ ➠ [𝐑𝙰𝙳𝙸𝚄𝚇](https://t.me/the_radiux_network)**
+๏ ᴍᴀᴅᴇ ʙʏ ➠ [𝚁𝙰𝙳𝙸𝚄𝚇](https://t.me/The_radiux_Network)**
 """,
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton (f"ᴠɪᴇᴡ ᴜsᴇʀ", url=f"https://t.me/{user.username}")]])
 
@@ -136,10 +141,10 @@ async def greet_group(_, member: ChatMemberUpdated):
         return 
 
 
-__mod_name__ = "𝐙-𝐖𝙴𝙻𝙲𝙾𝙼𝙴"
+__mod_name__ = "ᴢ-ᴡᴇʟᴄᴏᴍᴇ"
 __help__ = """
- ➩ ᴛʜɪs ɪs sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ғᴇᴀᴛᴜʀᴇs.
+ ❍ ᴛʜɪs ɪs sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ғᴇᴀᴛᴜʀᴇs.
 
- ➩ /zwelcome <enable> ➛ ᴇɴᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
- ➩ /zwelcome <disable> ➛ ᴅɪsᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
+ ❍ /zwelcome <enable> ➛ ᴇɴᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
+ ❍ /zwelcome <disable> ➛ ᴅɪsᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
  """
