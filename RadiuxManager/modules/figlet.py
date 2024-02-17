@@ -29,7 +29,7 @@ async def figlet_handler(Client, query: CallbackQuery):
       await query.message.edit_text(f"➩ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ғɪɢʟᴇᴛ ➛\n<pre>{kul_text}</pre>", reply_markup=keyboard)
   except Exception as e : 
       await message.reply(e)
-__mod_name__ = "ғɪɢʟᴇᴛ" 
+__mod_name__ = "𝐅𝙸𝙶𝙻𝙴𝚃" 
 __help__="""
 ➩ /figlet* ➛* ᴍᴀᴋᴇs ғɪɢʟᴇᴛ ᴏғ ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ
-➩ ᴇxᴀᴍᴘʟᴇ ➛ /figlet ʀᴏʏ-ᴇᴅɪᴛx"""
+➩ ᴇxᴀᴍᴘʟᴇ ➛ /figlet 𝐑𝙰𝙳𝙸𝚄𝚇"""
