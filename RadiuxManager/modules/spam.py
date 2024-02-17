@@ -34,7 +34,7 @@ async def spam_func(_, message):
     else:
         await message.reply_text("➩ You are not authorized to use this command.")
 
-__mod_name__ = "Spam"
+__mod_name__ = "𝐒𝙿𝙰𝙼"
 
 __help__ = """
 ➩ Spam a message multiple times in the chat.
