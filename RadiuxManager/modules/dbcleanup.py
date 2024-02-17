@@ -140,7 +140,7 @@ BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern="db_.*", run_asyn
 dispatcher.add_handler(DB_CLEANUP_HANDLER)
 dispatcher.add_handler(BUTTON_HANDLER)
 
-__mod_name__ ="ᴅᴀᴛᴀʙᴀsᴇ"
+__mod_name__ ="𝐃𝙰𝚃𝙰𝙱𝙰𝚂𝙴"
 __help__ = """
  ➩ /dbcleanup ➛ ғᴏʀ ᴅᴇᴇᴘ ᴄʟᴇᴀɴɪɴɢ.
  """
