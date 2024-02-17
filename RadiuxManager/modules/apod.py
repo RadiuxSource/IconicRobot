@@ -69,7 +69,7 @@ def apod(update: Update, context: CallbackContext):
 apod_handler = CommandHandler("apod", apod, run_async=True)
 dispatcher.add_handler(apod_handler)
 
-__mod_name__ = "ɴᴀsᴀ"
+__mod_name__ = "𝐍𝙰𝚂𝙰"
 
 __help__ = """
 ➩ /apod ➛ ᴛᴏ ɢᴇᴛ ᴛʜᴇ ᴀsᴛʀᴏɴᴏᴍʏ ᴘɪᴄᴛᴜʀᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ʙʏ ɴᴀsᴀ.
