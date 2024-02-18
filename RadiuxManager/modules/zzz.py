@@ -4,18 +4,29 @@ from unidecode import unidecode
 from PIL import ImageDraw, Image, ImageFont, ImageChops
 from pyrogram import *
 from pyrogram.types import *
+from logging import getLogger
 
 from RadiuxManager import pbot as app
+
 from RadiuxManager.database.wel_db import *
 
 COMMAND_HANDLER = ". /".split() # COMMAND HANDLER
 
 downloads_dir = "downloads"
+LOGGER = getLogger(__name__)
 if not os.path.exists(downloads_dir):
     os.makedirs(downloads_dir)
+ 
+
+LOGGER = getLogger(__name__)
 
 class temp:
+    ME = None
+    CURRENT = 2
+    CANCEL = False
     MELCOW = {}
+    U_NAME = None
+    B_NAME = None
 
 def circle(pfp, size=(450, 450)):
     pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
@@ -32,7 +43,9 @@ def welcomepic(pic, user, chat, id, uname):
     background = Image.open("RadiuxManager/resources/bg.jpg")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
-    pfp = pfp.resize((450, 450)) 
+    pfp = pfp.resize(
+        (450, 450)
+    ) 
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('RadiuxManager/resources/SwanseaBold-D0ox.ttf', size=40)
     welcome_font = ImageFont.truetype('RadiuxManager/resources/SwanseaBold-D0ox.ttf', size=60)
@@ -42,36 +55,48 @@ def welcomepic(pic, user, chat, id, uname):
     draw.text((30,510), f'@Iconic_Robot', fill=(255,255,255), font=font)
     pfp_position = (770, 140)  
     background.paste(pfp, pfp_position, pfp)  
-    background.save(f"downloads/welcome#{id}.png")
+    background.save(
+        f"downloads/welcome#{id}.png"
+    )
     return f"downloads/welcome#{id}.png"
 
-@app.on_message(filters.command("swelcome", COMMAND_HANDLER) & ~filters.private)
+
+@app.on_message(filters.command("zwelcome", COMMAND_HANDLER) & ~filters.private)
 async def auto_state(_, message):
+    usage = "**๏ ᴜsᴀɢᴇ ➠ **/zwelcome [ᴇɴᴀʙʟᴇ|ᴅɪsᴀʙʟᴇ]"
     if len(message.command) == 1:
-        return await message.reply_text("**Usage:** /swelcome [enable|disable]")
+        return await message.reply_text(usage)
     chat_id = message.chat.id
     user = await app.get_chat_member(message.chat.id, message.from_user.id)
-    if user.status in (enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER):
-        state = message.text.split(None, 1)[1].strip().lower()
-        if state == "enable":
-            if await wlcm.find_one({"chat_id" : chat_id}):
-               return await message.reply_text("Special welcome already enabled")
-            await add_wlcm(chat_id)
-            await message.reply_text(f"Enabled special welcome in {message.chat.title}")
-        elif state == "disable":
-            if not await wlcm.find_one({"chat_id" : chat_id}):
-               return await message.reply_text("Special welcome already disabled")
-            await rm_wlcm(chat_id)
-            await message.reply_text(f"Disabled special welcome in {message.chat.title}")
-        else:
-            await message.reply_text("**Usage:** /swelcome [enable|disable]")
+    if user.status in (
+        enums.ChatMemberStatus.ADMINISTRATOR,
+        enums.ChatMemberStatus.OWNER,
+    ):
+      A = await wlcm.find_one({"chat_id" : chat_id})
+      state = message.text.split(None, 1)[1].strip()
+      state = state.lower()
+      if state == "enable":
+        if A:
+           return await message.reply_text("๏ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ")
+        elif not A:
+           await add_wlcm(chat_id)
+           await message.reply_text(f"๏ ᴇɴᴀʙʟᴇᴅ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ɪɴ {message.chat.title}")
+      elif state == "disable":
+        if not A:
+           return await message.reply_text("๏ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ")
+        elif A:
+           await rm_wlcm(chat_id)
+           await message.reply_text(f"๏ ᴅɪsᴀʙʟᴇᴅ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ɪɴ {message.chat.title}")
+      else:
+        await message.reply_text(usage)
     else:
-        await message.reply("Only admins can use this command")
+        await message.reply("๏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ")
 
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    if not await wlcm.find_one({"chat_id" : chat_id}):
+    A = await wlcm.find_one({"chat_id" : chat_id})
+    if not A:
        return
     if (
         not member.new_chat_member
@@ -90,7 +115,7 @@ async def greet_group(_, member: ChatMemberUpdated):
         try:
             await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
         except Exception as e:
-            pass
+            LOGGER.error(e)
     try:
         welcomeimg = welcomepic(
             pic, user.first_name, member.chat.title, user.id, user.username
@@ -98,22 +123,30 @@ async def greet_group(_, member: ChatMemberUpdated):
         temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
             member.chat.id,
             photo=welcomeimg,
-            caption= f"**❀ Welcome to the {member.chat.title} group ❀\n\nNAME ➠ {user.mention}\nID ➠ {user.id}\nUSERNAME ➠ @{user.username}\nMade by ➠ [𝚁𝙰𝙳𝙸𝚄𝚇](https://t.me/The_radiux_Network)**",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton (f"View user", url=f"https://t.me/{user.username}")]])
+            caption= f"""
+**❀ ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ {member.chat.title} ɢʀᴏᴜᴘ ❀
+
+๏ ɴᴀᴍᴇ ➠ {user.mention}
+๏ ɪᴅ ➠ {user.id}
+๏ ᴜsᴇʀɴᴀᴍᴇ ➠ @{user.username}
+๏ ᴍᴀᴅᴇ ʙʏ ➠ [𝐑𝙰𝙳𝙸𝚄𝚇](https://t.me/THE_REALRADIUX)**
+""",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton (f"ᴠɪᴇᴡ ᴜsᴇʀ", url=f"https://t.me/{user.username}")]])
+
             )
     except Exception as e:
-        pass
+        LOGGER.error(e)
     try:
         os.remove(f"downloads/welcome#{user.id}.png")
         os.remove(f"downloads/pp{user.id}.png")
     except Exception as e:
-        pass
+        return 
 
-__mod_name__ = "𝐒-𝐖𝙴𝙻𝙲𝙾𝙼𝙴"
+
+__mod_name__ = "𝐙-𝐖𝙴𝙻𝙲𝙾𝙼𝙴"
 __help__ = """
  ❍ ᴛʜɪs ɪs sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ ғᴇᴀᴛᴜʀᴇs.
- 
- 
- ❍ /swelcome <enable> ➛ ᴇɴᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
- ❍ /swelcome <disable> ➛ ᴅɪsᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
+
+ ❍ /zwelcome <enable> ➛ ᴇɴᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
+ ❍ /zwelcome <disable> ➛ ᴅɪsᴀʙʟᴇ sᴘᴇᴄɪᴀʟ ᴡᴇʟᴄᴏᴍᴇ.
  """
