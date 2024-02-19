@@ -798,7 +798,7 @@ __handlers__ = [
     BAKA_HANDLER,
     DVA_HANDLER,
 ]
-__mod_name__ = "ɴsғᴡ"
+__mod_name__ = "𝐍𝚂𝙵𝚆"
 
 __help__ = """
 ✿ *ɴsғᴡ ᴍᴏᴅᴇ* ✿
