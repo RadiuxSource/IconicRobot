@@ -203,7 +203,7 @@ if is_module_loaded(FILENAME):
 ➩ ғᴏʀᴡᴀʀᴅɪɴɢ ᴛʜᴇ /setlog ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ
 """
 
-    __mod_name__ = "ʟ-ᴄʜᴀɴɴᴇʟ"
+    __mod_name__ = "𝐋𝙾𝙶-𝐂𝙷𝙽𝙻"
 
     LOG_HANDLER = CommandHandler("logchannel", logging, run_async=True)
     SET_LOG_HANDLER = CommandHandler("setlog", setlog, run_async=True)
