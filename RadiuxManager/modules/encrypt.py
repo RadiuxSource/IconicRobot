@@ -32,7 +32,7 @@ async def decrypt(bot, message):
         await message.reply_text(f"{e}")
 
 
-__mod_name__ = "ᴇɴᴄʀʏᴘᴛ"
+__mod_name__ = "𝐄𝙽𝙲𝚁𝚈𝙿𝚃"
 
 __help__ = """
 ✿ *ᴄᴏɴᴠᴇʀᴛs* ✿
