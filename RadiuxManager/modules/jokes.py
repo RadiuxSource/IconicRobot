@@ -36,7 +36,7 @@ async def fetch_joke(event):
     # Edit the "Generating a joke" message with the final reply
     await processing_message.edit(reply_message)
 
-__mod_name__ = "ᴊᴏᴋᴇs"
+__mod_name__ = "𝐉𝙾𝙺𝙴𝚂"
 
 __help__ = """
 ➩ ᴡʀɪᴛᴇ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ ➛ `/joke` ᴛᴏ ɢᴇᴛ ʀᴀɴᴅᴏᴍ ᴊᴏᴋᴇs.
