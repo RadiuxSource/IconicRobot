@@ -108,7 +108,7 @@ async def imdb(e):
     except IndexError:
         await e.reply("➩ ᴘʟᴢ ᴇɴᴛᴇʀ ᴠᴀʟɪᴅ ᴍᴏᴠɪᴇ ɴᴀᴍᴇ.")
 
-__mod_name__ = "ɪᴍᴅʙ"
+__mod_name__ = "𝐌𝙾𝚅𝙸𝙴"
 __help__ = """
  ➩ /imdb ➛ sᴇᴀʀᴄʜ ᴀ ᴍᴏᴠɪᴇ ᴅᴇᴛᴀɪʟs.
  ➩ /movie <movie name> ➛ sᴇᴀʀᴄʜ ᴀ ᴍᴏᴠɪᴇ ᴅᴇᴛᴀɪʟs.
