@@ -22,7 +22,7 @@ async def handwrite(_, message: Message):
     await m.delete()
     await message.reply_photo(photo=write,caption=caption)
 
-__mod_name__ = "ᴡʀɪᴛɪɴɢ"
+__mod_name__ = "𝐖𝚁𝙸𝚃𝙸𝙽𝙶"
 
 __help__ = """
  ➩ ᴡʀɪᴛᴇs ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ ᴏɴ ᴡʜɪᴛᴇ ᴘᴀɢᴇ ᴡɪᴛʜ ᴀ ᴘᴇɴ 🖊
