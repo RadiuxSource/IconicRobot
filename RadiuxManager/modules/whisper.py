@@ -137,6 +137,6 @@ __help__ = """
 ➩ @Iconic_Robot [@username] || [id] ʏᴏᴜʀ ᴍᴇssᴀɢᴇ
 """
 
-__mod_name__ = "ᴡʜɪsᴘᴇʀ"
+__mod_name__ = "𝐖𝙷𝙸𝚂𝙿𝙴𝚁"
 
 
