@@ -7,7 +7,7 @@ from RadiuxManager import dispatcher
 from RadiuxManager.modules.helper_funcs.alternate import send_message
 from RadiuxManager.modules.helper_funcs.chat_status import user_admin
 
-__mod_name__ = "ᴄᴀʟʟᴇʀ"
+__mod_name__ = "𝐏𝙷𝙾𝙽𝙴"
 __help__ = """
 ➩ /phone ꜰɪʟʟ ᴀɴʏ ᴍᴏʙɪʟᴇ ɴᴜᴍʙᴇʀ ᴛᴏ ᴄʜᴇᴄᴋ ɪɴꜰᴏ.
 """
