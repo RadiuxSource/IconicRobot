@@ -86,7 +86,7 @@ if 1 == 1:
         except:
             await borg.send_text("➩ ʀᴇᴘʟʏ ᴛᴏ ᴜsᴇʀ ᴍᴀᴛᴇ.")
             
-__mod_name__ = "ᴘғᴘ"
+__mod_name__ = "𝐏𝙵𝙿"
 __help__ = """
  ➩ /pfp ➛ ᴅᴏᴡɴʟᴏᴀᴅ ᴀɴʏᴏɴᴇ ᴘғᴘ ᴘɪᴄᴛᴜʀᴇs. [ᴇx - ɢʀᴏᴜᴘ ᴘɪᴄ, ᴄʜᴀɴɴᴇʟ, ᴜsᴇʀ ] ( ᴇɢ - /pfp @the_realradiux
  """
