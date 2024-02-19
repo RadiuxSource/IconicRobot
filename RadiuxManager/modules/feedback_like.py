@@ -112,7 +112,7 @@ async def feedback(e):
     await e.reply(TEXT, file=random.choice(HOTTIE), buttons=BUTTON)
 
 
-__mod_name__ = "ғᴇᴇᴅʙᴀᴄᴋ"
+__mod_name__ = "𝐅𝙴𝙴𝙳𝙱𝙰𝙲𝙺"
 __help__ = """
  ➩ /feedback ➛ ɢɪᴠᴇ ғᴇᴇᴅʙᴀᴄᴋ ᴛᴏ ᴀᴠɪsʜᴀ ʙᴏᴛ.
  """
