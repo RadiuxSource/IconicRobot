@@ -266,7 +266,7 @@ async def apk(e):
         await e.reply("➩ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ➛ " + str(err))
 
 
-__mod_name__ = "ɢᴏᴏɢʟᴇ"
+__mod_name__ = "𝐆𝙾𝙾𝙶𝙻𝙴"
 
 __help__ = """
  ➩ /google <text>* ➛* ᴘᴇʀғᴏʀᴍ ᴀ ɢᴏᴏɢʟᴇ sᴇᴀʀᴄʜ
