@@ -32,7 +32,7 @@ __help__ = """
 ➩ /snipe <ᴄʜᴀᴛɪᴅ> <sᴛʀɪɴɢ> ➛ ᴍᴀᴋᴇ ᴍᴇ sᴇɴᴅ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀ sᴘᴇᴄɪғɪᴄ ᴄʜᴀᴛ.
 """
 
-__mod_name__ = "sɴɪᴘᴇ"
+__mod_name__ = "𝐒𝙽𝙸𝙿𝙴"
 
 SNIPE_HANDLER = CommandHandler(
     "snipe", snipe, pass_args=True, filters=CustomFilters.dev_filter
