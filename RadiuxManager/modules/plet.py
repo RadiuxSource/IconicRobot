@@ -68,6 +68,6 @@ PLET_HANDLER = DisableAbleCommandHandler("plet", plet)
 
 dispatcher.add_handler(PLET_HANDLER)
 
-__mod_name__ = "ᴘʟᴇᴛ"
+__mod_name__ = "𝐏𝙻𝙴𝚃"
 __handlers__ = [PLET_HANDLER]
     
