@@ -1,4 +1,4 @@
-𝚚import requests
+import requests
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
