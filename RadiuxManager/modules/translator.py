@@ -63,7 +63,7 @@ vi,xh,yi,yo,zh,zh_CN,zh_TW,zu`
 
 **[𒆜 𝐈𝙲𝙾𝙽𝙸𝙲 𝐁𝙾𝚃 ๖ۣ•҉ ᭄](https://t.me/iconic_robot)**
 """
-__mod_name__ = "ᴛʀᴀɴs"
+__mod_name__ = "𝐓𝚁𝙰𝙽𝚂𝙻𝙰𝚃𝙴"
 
 TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], totranslate, run_async=True)
 
