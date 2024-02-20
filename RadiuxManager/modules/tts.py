@@ -81,7 +81,7 @@ async def _(event):
         )
         os.remove("Iconic.mp3")
 
-__mod_name__ = "ɢᴛᴛs"
+__mod_name__ = "𝐓𝚃𝚂"
 __help__ = """
 ➩ ғᴏʀᴍᴀᴛ ➛ `/tts lang | text`
 
