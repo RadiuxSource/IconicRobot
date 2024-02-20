@@ -105,7 +105,7 @@ async def ytmusic(client, message: Message):
             os.remove(files)
 
 
-__mod_name__ = "ᴠɪᴅᴇᴏ"
+__mod_name__ = "𝐕𝙸𝙳𝙴𝙾"
 __help__ = """ 
 ➩ /video ➛ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ ᴠɪᴅᴇᴏ sᴏɴɢ
 
