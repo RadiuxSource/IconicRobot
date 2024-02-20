@@ -98,7 +98,7 @@ async def cancel_spam(event):
         return await event.respond("sᴛᴏᴘᴘᴇᴅ ᴍᴇɴᴛɪᴏɴ.__")
 
 
-__mod_name__ = "ᴛᴀɢɢᴇʀ"
+__mod_name__ = "𝐓𝙰𝙶𝙶𝙴𝚁"
 __help__ = """
  ✿ ᴏɴʟʏ ғᴏʀ ᴀᴅᴍɪɴs ✿
 
