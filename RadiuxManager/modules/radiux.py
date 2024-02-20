@@ -170,7 +170,7 @@ __handlers__ = [
     CHATBOT_HANDLER,
 ]
 
-__mod_name__ = "ᴄʜᴀᴛ-ʙᴏᴛ"
+__mod_name__ = "𝐂𝙷𝙰𝚃-𝐁𝙾𝚃"
 __help__ = """
 ➩ ᴜsᴀɢᴡ ➛ `/chatbot enable` [ᴛᴏ ᴇɴᴀʙʟᴇ ᴄʜᴀᴛʙᴏᴛ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ]
 """
