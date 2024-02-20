@@ -64,7 +64,7 @@ __help__ = """
 ➩ /speedtest *➛* ʀᴜɴs ᴀ sᴘᴇᴇᴅᴛᴇsᴛ ᴀɴᴅ ᴄʜᴇᴄᴋ ᴛʜᴇ sᴇʀᴠᴇʀ sᴘᴇᴇᴅ.
 """
 
-__mod_name__ = "s-ᴛᴇsᴛ"
+__mod_name__ = "𝐒-𝚃𝙴𝚂𝚃"
 
 __command_list__ = ["speedtest"]
 __handlers__ = [SPEED_TEST_HANDLER, SPEED_TEST_CALLBACKHANDLER]
