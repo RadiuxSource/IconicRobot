@@ -50,7 +50,7 @@ async def qrcode_(_, message: Message):
 # -----------CREDITS -----------
 # telegram : @legend_coder
 # github : noob-mukesh
-__mod_name__ = "ǫʀᴄᴏᴅᴇ"
+__mod_name__ = "𝐐𝚁-𝐂𝙾𝙳𝙴"
 __help__ = """
  ➩ /qrcode ➛ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ ǫʀᴄᴏᴅᴇ
  """
