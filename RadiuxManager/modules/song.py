@@ -80,7 +80,7 @@ def song(client, message):
         print(e)
 
 
-__mod_name__ = "sᴏɴɢ"
+__mod_name__ = "𝐒𝙴𝙽𝙳"
 __help__ = """
 /song ➛ ᴛᴏ  ᴅᴏᴡɴʟᴏᴀᴅ   ᴀɴʏ  sᴏɴɢ 
 
