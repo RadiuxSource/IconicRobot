@@ -86,4 +86,4 @@ __help__ = """
  ➩ /short <url> ➛ *ᴇxᴀᴍᴘʟᴇ ⇴ `/short https://t.me/the_radiux_network`.
  *"""
 
-__mod_name__ = "sʜᴏʀᴛ"
+__mod_name__ = "𝐒𝙷𝙾𝚁𝚃"
