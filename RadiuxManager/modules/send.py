@@ -48,7 +48,7 @@ __help__ = """➩ ᴛʜᴇ sᴇɴᴅ ᴍᴏᴅᴜʟᴇ ᴀʟʟᴏᴡs ʏᴏᴜ �
 
 ➩ ɴᴏᴛᴇ ➛ /snd ʜɪ ᴡɪʟʟ sᴇɴᴅ ᴛʜᴇ ᴍᴇssᴀɢᴇ ʜɪ ᴛᴏ ᴛʜᴇ ᴄʜᴀᴛ"""
 
-__mod_name__ = "sᴇɴᴅ"
+__mod_name__ = "𝐒𝙴𝙽𝙳"
 
 
 ADD_CCHAT_HANDLER = DisableAbleCommandHandler("snd", send, run_async = True)
