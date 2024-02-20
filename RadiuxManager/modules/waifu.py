@@ -70,7 +70,7 @@ WAIFUINFO_HANDLER = CommandHandler('waifuinfo', waifu, run_async=True)
 dispatcher.add_handler(WAIFUINFO_HANDLER)
 
 #  Buttons for /help .
-__mod_name__ = "𝐖𝙰𝙸𝙵𝚄𝚂"
+__mod_name__ = "𝐖𝙰𝙸𝙵𝚄"
 __help__ = '''
    ➩ `/waifu`* ➛* sᴇɴᴅs ʟɪᴍɪᴛᴇᴅ ʙᴜᴛ ʙᴇsᴛ ᴡᴀɪғᴜ ɪᴍᴀɢᴇ.
    
