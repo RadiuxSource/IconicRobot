@@ -180,28 +180,28 @@ def new_member(update: Update, context: CallbackContext):
                     pass
                 reply = False
                     
-                    bot.send_message(
+bot.send_message(
                     EVENT_LOGS,
                     "#ɴᴇᴡ_ɢʀᴏᴜᴘ\n<b>ɢʀᴏᴜᴘ ɴᴀᴍᴇ :</b> {}\n<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{}</code> ".format(
                         html.escape(chat.title),
                         chat.id,
                     ),
-                    ),
+                    ),                    
                     
         
-                if cust_welcome:
-                    if cust_welcome == sql.DEFAULT_WELCOME:
+if cust_welcome:
+if cust_welcome == sql.DEFAULT_WELCOME:
                         cust_welcome = random.choice(
                             sql.DEFAULT_WELCOME_MESSAGES
                         ).format(first=escape_markdown(first_name))
 
-                    if new_mem.last_name:
+                if new_mem.last_name:
                         fullname = escape_markdown(f"{first_name} {new_mem.last_name}")
                     else:
                         fullname = escape_markdown(first_name)
                     count = chat.get_member_count()
                     mention = mention_markdown(new_mem.id, escape_markdown(first_name))
-                    if new_mem.username:
+                 if new_mem.username:
                         username = "@" + escape_markdown(new_mem.username)
                     else:
                         username = mention
