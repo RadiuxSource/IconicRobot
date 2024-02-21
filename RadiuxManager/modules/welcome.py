@@ -180,64 +180,54 @@ def new_member(update: Update, context: CallbackContext):
                     pass
                 reply = False
                     
-bot.send_message(
-                    EVENT_LOGS,
-                    "#ɴᴇᴡ_ɢʀᴏᴜᴘ\n<b>ɢʀᴏᴜᴘ ɴᴀᴍᴇ :</b> {}\n<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{}</code> ".format(
-                        html.escape(chat.title),
-                        chat.id,
-                    ),
-                    ),                    
-                    
-        
+EVENT_LOGS = "#ɴᴇᴡ_ɢʀᴏᴜᴘ\n<b>ɢʀᴏᴜᴘ ɴᴀᴍᴇ :</b> {}\n<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{}</code>".format(
+    html.escape(chat.title),
+    chat.id,
+)
+
 if cust_welcome:
-if cust_welcome == sql.DEFAULT_WELCOME:
-                        cust_welcome = random.choice(
-                            sql.DEFAULT_WELCOME_MESSAGES
-                        ).format(first=escape_markdown(first_name))
+    if cust_welcome == sql.DEFAULT_WELCOME:
+        cust_welcome = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=escape_markdown(first_name))
 
-                if new_mem.last_name:
-                        fullname = escape_markdown(f"{first_name} {new_mem.last_name}")
-                    else:
-                        fullname = escape_markdown(first_name)
-                    count = chat.get_member_count()
-                    mention = mention_markdown(new_mem.id, escape_markdown(first_name))
-                 if new_mem.username:
-                        username = "@" + escape_markdown(new_mem.username)
-                    else:
-                        username = mention
+    if new_mem.last_name:
+        fullname = escape_markdown(f"{first_name} {new_mem.last_name}")
+    else:
+        fullname = escape_markdown(first_name)
+    count = chat.get_member_count()
+    mention = mention_markdown(new_mem.id, escape_markdown(first_name))
+    if new_mem.username:
+        username = "@" + escape_markdown(new_mem.username)
+    else:
+        username = mention
 
-                    valid_format = escape_invalid_curly_brackets(
-                        cust_welcome, VALID_WELCOME_FORMATTERS
-                    )
-                    res = valid_format.format(
-                        first=escape_markdown(first_name),
-                        last=escape_markdown(new_mem.last_name or first_name),
-                        fullname=escape_markdown(fullname),
-                        username=username,
-                        mention=mention,
-                        count=count,
-                        chatname=escape_markdown(chat.title),
-                        id=new_mem.id,
-                    )
+    valid_format = escape_invalid_curly_brackets(cust_welcome, VALID_WELCOME_FORMATTERS)
+    res = valid_format.format(
+        first=escape_markdown(first_name),
+        last=escape_markdown(new_mem.last_name or first_name),
+        fullname=escape_markdown(fullname),
+        username=username,
+        mention=mention,
+        count=count,
+        chatname=escape_markdown(chat.title),
+        id=new_mem.id,
+    )
 
-                else:
-                    res = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(
-                        first=escape_markdown(first_name)
-                    )
-                    keyb = []
+else:
+    res = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=escape_markdown(first_name))
+    keyb = []
 
-                backup_message = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(
-                    first=escape_markdown(first_name)
-                )
-                keyboard = InlineKeyboardMarkup(keyb)
+backup_message = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=escape_markdown(first_name))
+keyboard = InlineKeyboardMarkup(keyb) if keyb else None
 
-        else:
-            welcome_bool = False
-            res = None
-            keyboard = None
-            backup_message = None
-            reply = None
+else:
+    welcome_bool = False
+    res = None
+    keyboard = None
+    backup_message = None
+    reply = None
+    
 
+        
         # User exceptions from welcomemutes
         if (
             is_user_ban_protected(chat, new_mem.id, chat.get_member(new_mem.id))
