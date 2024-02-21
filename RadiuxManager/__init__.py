@@ -9,7 +9,7 @@ import telegram.ext as tg
 from aiohttp import ClientSession
 from pyrogram import Client, errors
 from telethon import TelegramClient
-
+from telegram.ext import Application, ApplicationBuilder
 
 StartTime = time.time()
 
@@ -173,6 +173,9 @@ DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
+
+dispatcher = Application.builder().token(TOKEN).build()
+function = dispatcher.add_handler
 
 # Load at end to ensure all prev variables have been set
 from RadiuxManager.modules.helper_funcs.handlers import (
