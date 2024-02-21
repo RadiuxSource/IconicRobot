@@ -8,7 +8,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram import ParseMode
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
 
-from RadiuxManager import function
 from RadiuxManager.utils.state import state
 from telegram.ext import ApplicationBuilder 
 
