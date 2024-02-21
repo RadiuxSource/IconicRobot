@@ -174,7 +174,7 @@ WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
-dispatcher = Application.builder().token(TOKEN).build()
+dispatcher = ApplicationBuilder().token(TOKEN).build()
 function = dispatcher.add_handler
 
 # Load at end to ensure all prev variables have been set
