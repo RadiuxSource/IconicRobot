@@ -10,6 +10,7 @@ from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
 
 from RadiuxManager import function
 from RadiuxManager.utils.state import state
+from telegram.ext import ApplicationBuilder 
 
 # <=======================================================================================================>
 
@@ -151,6 +152,8 @@ async def show_next_match(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # <=======================================================================================================>
 
+dispatcher = ApplicationBuilder().token(TOKEN).build()
+function = dispatcher.add_handler
 
 # <================================================ HANDLER =======================================================>
 # Add command handlers to the dispatcher
