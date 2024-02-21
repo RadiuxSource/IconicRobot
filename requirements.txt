@@ -68,3 +68,4 @@ qrcode
 lexica-api==1.5.1
 git+https://github.com/AsmSafone/SafoneAPI
 httpx[http2]
+Python_ARQ
