@@ -9,7 +9,7 @@ import telegram.ext as tg
 from aiohttp import ClientSession
 from pyrogram import Client, errors
 from telethon import TelegramClient
-from telegram.ext import ApplicationBuilder
+from telegram import ApplicationBuilder
 
 StartTime = time.time()
 
