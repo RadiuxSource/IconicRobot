@@ -179,115 +179,16 @@ def new_member(update: Update, context: CallbackContext):
                 except BadRequest:
                     pass
                 reply = False
-
-            # Give the owner a special welcome
-            if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text(
-                    "ᴏʜ ɢᴇɴᴏs? ʟᴇᴛs ɢᴇᴛ ᴛʜɪs ᴍᴏᴠɪɴɢ.", reply_to_message_id=reply
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#ᴜsᴇʀ_ᴊᴏɪɴᴇᴅ\n"
-                    f"Bᴏᴛ Oᴡɴᴇʀ Jᴜsᴛ Jᴏɪɴᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ"
-                )
-                continue
-
-            # Welcome Devs
-            elif new_mem.id in DEV_USERS:
-                update.effective_message.reply_text(
-                    "Bᴇ ᴄᴏᴏʟ! A ᴍᴇᴍʙᴇʀ ᴏғ ᴛʜᴇ Hᴇʀᴏᴇs Assᴏᴄɪᴀᴛɪᴏɴ Jᴜsᴛ Jᴏɪɴᴇᴅ.",
-                    reply_to_message_id=reply,
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#ᴜsᴇʀ_ᴊᴏɪɴᴇᴅ\n"
-                    f"Bᴏᴛ ᴅᴇᴠ Jᴜsᴛ Jᴏɪɴᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ"
-                )
-                continue
-
-            # Welcome Sudos
-            elif new_mem.id in DRAGONS:
-                update.effective_message.reply_text(
-                    "Wʜᴏᴀ! A Dʀᴀɢᴏɴ ᴅɪsᴀsᴛᴇʀ Jᴜsᴛ Jᴏɪɴᴇᴅ! Sᴛᴀʏ Aʟᴇʀᴛ!",
-                    reply_to_message_id=reply,
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#ᴜsᴇʀ_ᴊᴏɪɴᴇᴅ\n"
-                    f"Bᴏᴛ Sᴜᴅᴏ Jᴜsᴛ Jᴏɪɴᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ"
-                )
-                continue
-
-            # Welcome Support
-            elif new_mem.id in DEMONS:
-                update.effective_message.reply_text(
-                    "Huh! Someone with a Demon disaster level just joined!",
-                    reply_to_message_id=reply,
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#USER_JOINED\n"
-                    f"Bot Support just joined the group"
-                )
-                continue
-
-            # Welcome Whitelisted
-            elif new_mem.id in TIGERS:
-                update.effective_message.reply_text(
-                    "Roar! A Tiger disaster just joined!", reply_to_message_id=reply
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#USER_JOINED\n"
-                    f"A whitelisted user joined the chat"
-                )
-                continue
-
-            # Welcome Tigers
-            elif new_mem.id in WOLVES:
-                update.effective_message.reply_text(
-                    "Awoo! A Wolf disaster just joined!", reply_to_message_id=reply
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#USER_JOINED\n"
-                    f"A whitelisted user joined the chat"
-                )
-                continue
-
-            # Welcome yourself
-            elif new_mem.id == bot.id:
-                if not RadiuxManager.ALLOW_CHATS:
-                    with suppress(BadRequest):
-                        update.effective_message.reply_text(
-                            f"ɢʀᴏᴜᴘ ᴀʀᴇ ᴅɪsᴀʙʟᴇᴅ ғᴏʀ {bot.first_name}, ɪ'ᴍ ʙᴜsʏ."
-                        )
-                    bot.leave_chat(update.effective_chat.id)
-                    return
-                bot.send_message(
+                    
+                    bot.send_message(
                     EVENT_LOGS,
                     "#ɴᴇᴡ_ɢʀᴏᴜᴘ\n<b>ɢʀᴏᴜᴘ ɴᴀᴍᴇ :</b> {}\n<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{}</code> ".format(
                         html.escape(chat.title),
                         chat.id,
                     ),
-                    parse_mode=ParseMode.HTML,
-                )
-                update.effective_message.reply_text(
-                    "Watashi ga kita !", reply_to_message_id=reply
-                )
-                continue
-
-            else:
-                buttons = sql.get_welc_buttons(chat.id)
-                keyb = build_keyboard(buttons)
-
-                if welc_type not in (sql.Types.TEXT, sql.Types.BUTTON_TEXT):
-                    media_wel = True
-
-                first_name = (
-                    new_mem.first_name or "PersonWithNoName"
-                )  # edge case of empty name - occurs for some bugs.
-
+                    ),
+                    
+        
                 if cust_welcome:
                     if cust_welcome == sql.DEFAULT_WELCOME:
                         cust_welcome = random.choice(
