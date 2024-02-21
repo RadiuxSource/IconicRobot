@@ -65,7 +65,7 @@ numpy==1.26.3
 pycountry
 blackpink 
 qrcode
-lexica-api==1.5.1
+lexica-api==1.5.5
 git+https://github.com/AsmSafone/SafoneAPI
 httpx[http2]
 Python_ARQ
