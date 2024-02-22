@@ -22,9 +22,9 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
-import MukeshRobot
-import MukeshRobot.modules.sql.welcome_sql as sql
-from MukeshRobot import (
+import RadiuxManager
+import RadiuxManager.modules.sql.welcome_sql as sql
+from RadiuxManager import (
     DEMONS,
     DEV_USERS,
     DRAGONS,
@@ -35,18 +35,18 @@ from MukeshRobot import (
     WOLVES,
     dispatcher,
 )
-from MukeshRobot.modules.helper_funcs.chat_status import (
+from RadiuxManager.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
     user_admin,
 )
-from MukeshRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
-from MukeshRobot.modules.helper_funcs.msg_types import get_welcome_type
-from MukeshRobot.modules.helper_funcs.string_handling import (
+from RadiuxManager.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from RadiuxManager.modules.helper_funcs.msg_types import get_welcome_type
+from RadiuxManager.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
     markdown_parser,
 )
-from MukeshRobot.modules.log_channel import loggable
-from MukeshRobot.modules.sql.global_bans_sql import is_user_gbanned
+from RadiuxManager.modules.log_channel import loggable
+from RadiuxManager.modules.sql.global_bans_sql import is_user_gbanned
 
 VALID_WELCOME_FORMATTERS = [
     "first",
@@ -257,7 +257,7 @@ def new_member(update: Update, context: CallbackContext):
 
             # Welcome yourself
             elif new_mem.id == bot.id:
-                if not MukeshRobot.ALLOW_CHATS:
+                if not RadiuxManager.ALLOW_CHATS:
                     with suppress(BadRequest):
                         update.effective_message.reply_text(
                             f"ɢʀᴏᴜᴘ ᴀʀᴇ ᴅɪsᴀʙʟᴇᴅ ғᴏʀ {bot.first_name}, ɪ'ᴍ ʙᴜsʏ."
@@ -1110,7 +1110,7 @@ dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
 dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
-__mod_name__ = "ᴡᴇʟᴄᴏᴍᴇ"
+__mod_name__ = "𝐖𝙴𝙻𝙲𝙾𝙼𝙴"
 __command_list__ = []
 __handlers__ = [
     NEW_MEM_HANDLER,
