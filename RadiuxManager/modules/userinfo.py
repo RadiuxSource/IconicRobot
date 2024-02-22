@@ -349,10 +349,10 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "ʜᴇᴀʟᴛʜ", url="https://t.me/the_radiux_network/882"
+                                "ʜᴇᴀʟᴛʜ", url="https://t.me/the_radiux_support/9"
                             ),
                             InlineKeyboardButton(
-                                "ᴅɪsᴀsᴛᴇʀ", url="https://t.me/the_radiux_network/881"
+                                "ᴅɪsᴀsᴛᴇʀ", url="https://t.me/the_radiux_support/13"
                             ),
                         ],
                         [
