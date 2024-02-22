@@ -6,10 +6,9 @@
 # <============================================== IMPORTS =========================================================>
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram import ParseMode
-from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
+from telegram.ext import CallbackQueryHandler, CommandHandler, Updater, ConversationHandler
 
 from RadiuxManager.utils.state import state
-from telegram.ext import ApplicationBuilder 
 
 # <=======================================================================================================>
 
@@ -20,7 +19,7 @@ FOOTBALL_API_URL = "https://sugoi-api.vercel.app/football"
 
 # Define the MatchManager class as provided in your code
 class MatchManager:
-    def init(self, api_url):
+    def __init__(self, api_url):  # corrected init to __init__
         self.api_url = api_url
         self.matches = []
         self.match_count = 0
@@ -30,7 +29,7 @@ class MatchManager:
         self.matches = response.json()
 
     def get_next_matches(self, count):
-        next_matches = self.matches[self.match_count : self.match_count + count]
+        next_matches = self.matches[self.match_count: self.match_count + count]
         self.match_count += count
         return next_matches
 
@@ -66,7 +65,7 @@ football_manager = MatchManager(FOOTBALL_API_URL)
 
 
 # Define a command handler for the /cricket command
-async def get_cricket_matches(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def get_cricket_matches(update: Update, context):
     try:
         cricket_manager.reset_matches()
         await cricket_manager.fetch_matches()
@@ -90,7 +89,7 @@ async def get_cricket_matches(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 
 # Define a command handler for the /football command
-async def get_football_matches(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def get_football_matches(update: Update, context):
     try:
         football_manager.reset_matches()
         await football_manager.fetch_matches()
@@ -113,9 +112,8 @@ async def get_football_matches(update: Update, context: ContextTypes.DEFAULT_TYP
         await update.message.reply_text(f"An error occurred: {str(e)}")
 
 
-
 # Define a callback query handler for showing the next match
-async def show_next_match(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def show_next_match(update: Update, context):
     try:
         query = update.callback_query
         sport = query.data.split("_")[1]
@@ -150,28 +148,34 @@ async def show_next_match(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # <=======================================================================================================>
+def main():
+    updater = Updater(token='YOUR_TELEGRAM_BOT_TOKEN', use_context=True)
+    dispatcher = updater.dispatcher
 
-dispatcher = ApplicationBuilder().token(TOKEN).build()
-function = dispatcher.add_handler
+    # <================================================ HANDLER =======================================================>
+    # Add command handlers to the dispatcher
+    dispatcher.add_handler(CommandHandler("cricket", get_cricket_matches))
+    dispatcher.add_handler(CommandHandler("football", get_football_matches))
+    dispatcher.add_handler(
+        CallbackQueryHandler(show_next_match, pattern=r"^next_(cricket|football)_match$")
+    )
 
-# <================================================ HANDLER =======================================================>
-# Add command handlers to the dispatcher
-function(CommandHandler("cricket", get_cricket_matches))
-function(CommandHandler("football", get_football_matches))
-function(
-    CallbackQueryHandler(show_next_match, pattern=r"^next_(cricket|football)_match$")
-)
+    # <================================================= HELP ======================================================>
+    help_text = """
+    🏅 *Match 𝗦chedule*
 
-# <================================================= HELP ======================================================>
-help = """
-🏅 *Match 𝗦chedule*
+    ➠ *Commands*:
 
-➠ *Commands*:
+    » /cricket: use this command to get information about the next cricket match.
 
-» /cricket: use this command to get information about the next cricket match.
+    » /football: use this command to get information about the next football match.
+    """
 
-» /football: use this command to get information about the next football match.
-"""
+    # <================================================== END =====================================================>
 
-mod_name = "𝐒𝙿𝙾𝚁𝚃𝚂"
-# <================================================== END =====================================================>
+    updater.start_polling()
+    updater.idle()
+
+
+if __name__ == '__main__':
+    main()
