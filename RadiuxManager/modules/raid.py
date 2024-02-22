@@ -6,7 +6,7 @@ from RadiuxManager.database.sdata import RAID_MESSAGES, MRAID_MESSAGES, SRAID_ME
 from RadiuxManager import pbot as app
 from RadiuxManager.utils.errors import capture_err
 
-SUDO_USERS = [6393380026, 5265109324]  # Example list of user IDs
+SUDO_USERS = [6393380026, 5265109324, 6605144023, 6557524231]  # Example list of user IDs
 OWNER_ID = [6652842490, 6532178459]  # Example owner ID
 rraid_active_users = {}  # Format: {chat_id: user_id}
 
