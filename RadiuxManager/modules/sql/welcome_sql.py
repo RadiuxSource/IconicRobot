@@ -4,8 +4,8 @@ from typing import Union
 
 from sqlalchemy import BigInteger, Boolean, Column, Integer, String, UnicodeText
 
-from MukeshRobot.modules.helper_funcs.msg_types import Types
-from MukeshRobot.modules.sql import BASE, SESSION
+from RadiuxManager.modules.helper_funcs.msg_types import Types
+from RadiuxManager.modules.sql import BASE, SESSION
 
 DEFAULT_WELCOME = "Hey {first}, how are you?"
 DEFAULT_GOODBYE = "Bye, {first} !! fir mat aana"
