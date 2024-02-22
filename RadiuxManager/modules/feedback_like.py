@@ -114,5 +114,5 @@ async def feedback(e):
 
 __mod_name__ = "𝐅𝙴𝙴𝙳𝙱𝙰𝙲𝙺"
 __help__ = """
- ➩ /feedback ➛ ɢɪᴠᴇ ғᴇᴇᴅʙᴀᴄᴋ ᴛᴏ ᴀᴠɪsʜᴀ ʙᴏᴛ.
+ ➩ /feedback ➛ ɢɪᴠᴇ ғᴇᴇᴅʙᴀᴄᴋ ᴛᴏ ɪᴄᴏɴɪᴄ ʙᴏᴛ.
  """
