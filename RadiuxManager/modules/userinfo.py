@@ -269,7 +269,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\n➩ ᴛʜᴇ ᴅɪsᴀsᴛᴇʀ ʟᴇᴠᴇʟ ᴏғ ᴛʜɪs ᴜsᴇʀ ɪs <b>ɢᴏᴅ</b>.\n"
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\n➩ ᴛʜɪs ᴜsᴇʀ ɪs ᴀ ᴍᴇᴍʙᴇʀ ᴏғ <b>ᴀᴠɪsʜᴀ ᴀssᴏᴄɪᴀᴛɪᴏɴ</b>.\n"
+        text += "\n\n➩ ᴛʜɪs ᴜsᴇʀ ɪs ᴀ ᴍᴇᴍʙᴇʀ ᴏғ <b>ɪᴄᴏɴɪᴄ ᴀssᴏᴄɪᴀᴛɪᴏɴ</b>.\n"
         disaster_level_present = True
     elif user.id in DRAGONS:
         text += "\n\n➩ ᴛʜᴇ ᴅɪsᴀsᴛᴇʀ ʟᴇᴠᴇʟ ᴏғ ᴛʜɪs ᴜsᴇʀ ɪs <b>ᴅʀᴀɢᴏɴ</b>.\n"
