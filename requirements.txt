@@ -67,4 +67,6 @@ blackpink
 qrcode
 lexica-api==1.5.1
 git+https://github.com/AsmSafone/SafoneAPI
-
+python-arq==6.0.5
+wget
+pydub
