@@ -18,7 +18,7 @@ async def ptag(event):
 
     # Check if the user is an admin or the creator of the chat
     try:
-        participant = await client(GetParticipantRequest(channel=event.chat_id, participant_id=event.sender_id))
+        participant = await client(GetParticipantRequest(channel=event.chat_id, user_id=event.sender_id))
         user_permissions = participant.participant
         if not isinstance(user_permissions, (ChannelParticipantAdmin, ChannelParticipantCreator)):
             return await event.respond("__You need to be an admin to use this command.__")
