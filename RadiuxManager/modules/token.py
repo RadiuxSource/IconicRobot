@@ -23,10 +23,11 @@ async def generate_token(client, message):
         token = 'Adi_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5)) + '_iux'
         user_tokens[user_id] = token
     else:
-        # Retrieve user's existing token
-        token = user_tokens[user_id]
+    # Retrieve user's existing token
+    token = user_tokens[user_id]
     response = f"Your token: `{token}`\n\nBy -- Iconic Robot"
-    await message.reply(response, parse_mode='markdown')
+    await message.reply(response, parse_mode='MarkdownV2')
+
 
 # Error handler for invalid commands
 @app.on_message(filters.command("ctoken", prefixes="/") & filters.private)
