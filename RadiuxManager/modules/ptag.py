@@ -17,16 +17,16 @@ async def ptag(event):
         return await event.respond("__This command can be used in groups and channels only.__")
 
     # Check if the user is an admin or the creator of the chat
-    try:
-        full_chat = await client(GetFullChannelRequest(channel=chat_id))
-        participants = full_chat.full_chat.participants_count
-        user_permissions = participants.participant
-        if not isinstance(user_permissions, (ChannelParticipantAdmin, ChannelParticipantCreator)):
-            return await event.respond("__You need to be an admin to use this command.__")
-    except UserNotParticipantError:
-        return await event.respond("__Error: You are not a participant in this chat.__")
-    except ChatAdminRequiredError:
-        return await event.respond("__I need to be an admin to see if you're an admin!__")
+try:
+    full_chat = await client(GetFullChannelRequest(channel=chat_id))
+    chat_obj = full_chat.full_chat
+    user_permissions = chat_obj.admin_rights
+    if not user_permissions:
+        return await event.respond("__You need to be an admin to use this command.__")
+except UserNotParticipantError:
+    return await event.respond("__Error: You are not a participant in this chat.__")
+except ChatAdminRequiredError:
+    return await event.respond("__I need to be an admin to see if you're an admin!__")
 
     # Get the message to broadcast
     message_to_broadcast = event.pattern_match.group(1)
