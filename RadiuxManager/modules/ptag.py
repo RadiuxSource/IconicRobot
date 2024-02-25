@@ -12,12 +12,14 @@ async def ptag(client, message):
     try:
         # Check if the user is an admin or the creator of the chat
         chat_member = await client.get_chat_member(chat_id, message.from_user.id)
-        if not chat_member.status == "administrator" and not chat_member.status == "creator":
+        if chat_member.status not in ("administrator", "creator"):
             return await message.reply("__You need to be an admin to use this command.__")
     except UserNotParticipant:
         return await message.reply("__Error: You are not a participant in this chat.__")
     except ChatAdminRequired:
         return await message.reply("__I need to be an admin to see if you're an admin!__")
+
+    # Rest of your code...
 
     # Get the message to broadcast
     message_to_broadcast = message.text.split(maxsplit=1)[1]
