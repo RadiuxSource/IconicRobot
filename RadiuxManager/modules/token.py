@@ -40,9 +40,5 @@ async def check_token(client, message):
     except IndexError:
         await message.reply("Please provide a token to check.")
 
-# Error handler for uncaught exceptions
-@app.on_error()
-async def error_handler(client, message):
-    await message.reply("An error occurred while processing your request.")
 
 app.run()
