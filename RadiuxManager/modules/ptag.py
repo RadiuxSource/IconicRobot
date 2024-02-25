@@ -19,8 +19,8 @@ async def ptag(event):
     # Check if the user is an admin or the creator of the chat
     try:
         full_chat = await client(GetFullChannelRequest(channel=chat_id))
-        participant = full_chat.full_chat.participants
-        user_permissions = participant.participant
+        participants = full_chat.full_chat.participants_count
+        user_permissions = participants.participant
         if not isinstance(user_permissions, (ChannelParticipantAdmin, ChannelParticipantCreator)):
             return await event.respond("__You need to be an admin to use this command.__")
     except UserNotParticipantError:
@@ -40,7 +40,7 @@ async def ptag(event):
 
     # Get full chat info to extract the chat's title
     chat_title = full_chat.full_chat.title
-    bot_name = "Iconic Bot"  # Replace with your bot's name
+    bot_name = "YourBotName"  # Replace with your bot's name
 
     # Broadcast the message to all chat members
     async for user in client.iter_participants(chat_id):
