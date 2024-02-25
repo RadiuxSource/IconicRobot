@@ -2,7 +2,7 @@ import asyncio
 
 from telethon import events
 from telethon.errors import UserNotParticipantError, ChatAdminRequiredError
-from telethon.tl.functions.channels import GetParticipantRequest, GetFullChannelRequest
+from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from RadiuxManager import telethn as client
@@ -18,19 +18,29 @@ async def ptag(event):
 
     # Check if the user is an admin or the creator of the chat
     try:
-        participant = await client(GetParticipantRequest(channel=event.chat_id, user_id=event.sender_id))
-        user_permissions = participant.participant
-        if not isinstance(user_permissions, (ChannelParticipantAdmin, ChannelParticipantCreator)):
-            return await event.respond("__You need to be an admin to use this command.__")
+        # Check if the user is a participant in the chat
+        await client.get_participant(chat_id, event.sender_id)
     except UserNotParticipantError:
         return await event.respond("__Error: You are not a participant in this chat.__")
-    except ChatAdminRequiredError:
-        return await event.respond("__I need to be an admin to see if you're an admin!__")
 
     # Get the message to broadcast
     message_to_broadcast = event.pattern_match.group(1)
     if not message_to_broadcast:
         return await event.respond("__Please specify the message to broadcast.__")
+
+    # Check if the user is an admin or the creator of the chat
+    try:
+        participant = await client(GetFullChannelRequest(channel=chat_id))
+        chat_participants = participant.full_chat.participants
+        user_permissions = None
+        for user in chat_participants:
+            if user.user_id == event.sender_id:
+                user_permissions = user
+                break
+        if not isinstance(user_permissions, (ChannelParticipantAdmin, ChannelParticipantCreator)):
+            return await event.respond("__You need to be an admin to use this command.__")
+    except ChatAdminRequiredError:
+        return await event.respond("__I need to be an admin to see if you're an admin!__")
 
     # Prevent spamming the command in the same chat
     if chat_id in ptag_chats:
