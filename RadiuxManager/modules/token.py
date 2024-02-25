@@ -2,7 +2,7 @@ import asyncio
 import random
 import string
 from telethon import events
-
+from RadiuxManager import pbot as client
 # Dictionary to store user IDs and their tokens
 user_tokens = {}
 
