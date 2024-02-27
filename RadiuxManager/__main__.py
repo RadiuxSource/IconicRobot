@@ -100,7 +100,7 @@ buttons = [
     ],
     [
         InlineKeyboardButton(text=" 𝐒𝚄𝙿𝙿𝙾𝚁𝚃 ", url=f"https://t.me/offtopic_community"),
-        InlineKeyboardButton(text=" 𝐔𝙿𝙳𝙰𝚃𝙴𝚂 ", url=f"https://t.me/EquinoxNetwork"),
+        InlineKeyboardButton(text=" 𝐔𝙿𝙳𝙰𝚃𝙴𝚂 ", url=f"https://t.me/Equinox_Bots"),
     ],
     [
         InlineKeyboardButton(text=" 𝐑𝙴𝙿𝙾 ", callback_data="gib_source"), 
@@ -783,7 +783,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "» 𝐂𝐡𝐨𝐨𝐬𝐞 𝐀𝐧 𝐎𝐩𝐭𝐢𝐨𝐧 𝐅𝐨𝐫 𝐆𝐞𝐭𝐭𝐢𝐧𝐠 𝐇𝐞𝐥𝐩",
+            "ᥫᩣ 𝐂𝙷𝙾𝚂𝙴 𝐀𝙽 𝐎𝙿𝚃𝙸𝙾𝙽 𝐅𝙾𝚁 𝐆𝙴𝚃𝚃𝙸𝙽𝙶 𝐇𝙴𝙻𝙿 ᰔᩚ",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -966,7 +966,7 @@ def get_settings(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="sᴇᴛᴛɪɴɢs",
+                                text="𝐒𝙴𝚃𝚃𝙸𝙽𝙶𝚂",
                                 url="t.me/{}?start=stngs_{}".format(
                                     context.bot.username, chat.id
                                 ),
@@ -1096,7 +1096,7 @@ def main():
 
     dispatcher.add_error_handler(error_callback)
 
-    LOGGER.info("🌱 𝐁𝐎𝐓 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘 🌱\n\n╔═════ᥫᩣ۩ღ۩ᥫᩣ════╗\n\n➟ ๏ 𝐈𝐂𝐎𝐍𝐈𝐂 💕\n\n╚═════ᥫᩣ۩ღ۩ᥫᩣ════╝")
+    LOGGER.info("💝 𝐁𝙾𝚃 𝐒𝚃𝙰𝚁𝚃𝙴𝙳 𝐒𝚄𝙲𝙲𝙴𝚂𝚂𝙵𝚄𝙻𝙻𝚈 💝\n\n╔═════ᥫᩣ۩ღ۩ᥫᩣ════╗\n\n➟ ๏ 𝐈𝐂𝐎𝐍𝐈𝐂 💕\n\n╚═════ᥫᩣ۩ღ۩ᥫᩣ════╝")
     updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
