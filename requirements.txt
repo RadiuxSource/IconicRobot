@@ -1,4 +1,5 @@
 aiofiles==23.2.1
+async_pymongo 
 aiohttp==3.9.2
 apscheduler==3.6.3
 asyncio==3.4.3
