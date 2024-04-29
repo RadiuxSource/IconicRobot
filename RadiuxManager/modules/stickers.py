@@ -202,8 +202,6 @@ def kang(update, context):
                 packname_found = 1
 
     kangsticker = "kangsticker.png"
-    is_animated = True
-    is_video = True
     # convert gif method
     is_gif = True
     file_id = ""
