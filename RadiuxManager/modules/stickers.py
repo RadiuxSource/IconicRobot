@@ -204,6 +204,8 @@ def kang(update, context):
     kangsticker = "kangsticker.png"
     # convert gif method
     is_gif = True
+    is_animated = True
+    is_video = True
     file_id = ""
 
     if msg.reply_to_message:
